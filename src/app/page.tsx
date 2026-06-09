@@ -82,7 +82,7 @@ export default function Home() {
       {/* HERO */}
       <section className="relative overflow-hidden">
         <BrainBackground />
-        <div className="relative mx-auto max-w-6xl px-6 py-20 lg:py-32">
+        <div className="relative mx-auto max-w-6xl px-6 pt-10 pb-16 lg:pt-14 lg:pb-24">
           <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-7">
               <div className="inline-flex items-center gap-2 rounded-full border border-tds-green/30 bg-tds-green/5 px-3 py-1 text-xs font-medium text-tds-green-bright">
@@ -333,8 +333,28 @@ function SuporteItem({ children }: { children: React.ReactNode }) {
 
 function HeroVisual() {
   return (
-    <div className="relative">
-      <div className="absolute -inset-4 rounded-3xl bg-tds-green/10 blur-2xl" />
+    <div className="relative pl-4 pr-8 lg:pr-0 pt-8 pb-12">
+      {/* Glow */}
+      <div className="absolute -inset-6 rounded-[2.5rem] bg-tds-green/10 blur-3xl" />
+
+      {/* Float notification top */}
+      <div className="absolute -top-2 right-4 z-20 rounded-xl border border-tds-green/40 bg-tds-panel/95 px-3 py-2 shadow-2xl backdrop-blur animate-tds-float">
+        <div className="flex items-center gap-2">
+          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-tds-green text-base">
+            🤖
+          </div>
+          <div>
+            <p className="text-[10px] font-semibold text-white">
+              Automação executada agora
+            </p>
+            <p className="text-[9px] text-slate-400">
+              240 mensagens enviadas via WhatsApp
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Dashboard principal */}
       <div className="relative rounded-2xl border border-tds-border bg-tds-panel p-5 shadow-2xl">
         <div className="flex items-center justify-between border-b border-tds-border pb-3">
           <div className="flex items-center gap-2">
@@ -342,24 +362,40 @@ function HeroVisual() {
             <div className="h-2.5 w-2.5 rounded-full bg-amber-500/50" />
             <div className="h-2.5 w-2.5 rounded-full bg-tds-green" />
           </div>
-          <span className="text-[10px] uppercase tracking-wider text-slate-500">
-            Dashboard TDS
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="flex items-center gap-1 text-[10px] font-semibold text-tds-green">
+              <span className="inline-flex h-1.5 w-1.5 rounded-full bg-tds-green animate-tds-pulse-live" />
+              AO VIVO
+            </span>
+            <span className="text-[10px] uppercase tracking-wider text-slate-500">
+              Dashboard TDS
+            </span>
+          </div>
         </div>
 
         <div className="mt-4 grid grid-cols-3 gap-2">
-          <Kpi label="Clientes" valor="2.847" />
-          <Kpi label="Receita" valor="R$ 184k" />
-          <Kpi label="Conversão" valor="32%" />
+          <Kpi label="Clientes" valor="2.847" delta="+12%" />
+          <Kpi label="Receita" valor="R$ 184k" delta="+8%" />
+          <Kpi label="Conversão" valor="32%" delta="+4pp" />
         </div>
 
         <div className="mt-4">
-          <p className="text-[10px] uppercase tracking-wider text-slate-500">
-            Crescimento 6 meses
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-[10px] uppercase tracking-wider text-slate-500">
+              Crescimento 6 meses
+            </p>
+            <p className="text-[10px] font-semibold text-tds-green">+128%</p>
+          </div>
           <div className="mt-2 flex items-end justify-between gap-1.5 h-24">
             {[40, 52, 48, 65, 78, 92].map((h, i) => (
-              <div key={i} className="flex-1 rounded-t bg-gradient-to-t from-tds-green to-tds-green-bright" style={{ height: `${h}%` }} />
+              <div
+                key={i}
+                className="flex-1 rounded-t bg-gradient-to-t from-tds-green to-tds-green-bright animate-tds-bar-grow"
+                style={{
+                  height: `${h}%`,
+                  animationDelay: `${i * 0.08}s`,
+                }}
+              />
             ))}
           </div>
         </div>
@@ -370,15 +406,63 @@ function HeroVisual() {
           <Atividade tipo="!" texto="3 oportunidades de retorno detectadas" cor="text-amber-400" />
         </div>
       </div>
+
+      {/* WhatsApp chat sobreposto */}
+      <div className="absolute -bottom-4 -left-2 z-10 w-56 rotate-[-2deg] rounded-2xl border border-emerald-500/30 bg-tds-panel p-3 shadow-2xl backdrop-blur sm:-left-4">
+        <div className="rounded-xl bg-emerald-950/40 p-2.5">
+          <div className="flex items-center gap-2 border-b border-emerald-900/40 pb-2">
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 text-[9px] font-bold text-white">
+              C
+            </div>
+            <div className="flex-1">
+              <p className="text-[10px] font-semibold text-white">Camila Souza</p>
+              <p className="text-[8px] text-emerald-300">online</p>
+            </div>
+            <span className="text-[8px] text-emerald-400 font-semibold">
+              Aniversário 🎂
+            </span>
+          </div>
+          <div className="mt-2 rounded-tl-none rounded-lg bg-emerald-700 px-2 py-1.5 text-[9px] text-white">
+            <span className="block text-[7px] uppercase tracking-widest text-emerald-200 mb-0.5">
+              🤖 Mensagem da TDS
+            </span>
+            <p>Bom dia, Camila! 🎂 Hoje é o seu dia! Toda a equipe...</p>
+            <p className="mt-1 text-right text-[7px] text-emerald-200">06:00 ✓✓</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Floating chip bottom-right: contador de fluxos */}
+      <div className="absolute -bottom-2 -right-2 z-20 rounded-full border border-tds-green/40 bg-tds-panel/95 px-3 py-1.5 shadow-2xl backdrop-blur">
+        <div className="flex items-center gap-1.5 text-[10px] font-bold text-tds-green">
+          <span className="inline-flex h-1.5 w-1.5 rounded-full bg-tds-green animate-tds-pulse-live" />
+          5 fluxos ativos
+        </div>
+      </div>
     </div>
   );
 }
 
-function Kpi({ label, valor }: { label: string; valor: string }) {
+function Kpi({
+  label,
+  valor,
+  delta,
+}: {
+  label: string;
+  valor: string;
+  delta?: string;
+}) {
   return (
     <div className="rounded-md border border-tds-border bg-tds-bg p-2">
       <p className="text-[9px] uppercase text-slate-500">{label}</p>
-      <p className="text-sm font-bold text-white">{valor}</p>
+      <div className="flex items-baseline gap-1.5">
+        <p className="text-sm font-bold text-white">{valor}</p>
+        {delta && (
+          <span className="text-[8px] font-semibold text-tds-green">
+            {delta}
+          </span>
+        )}
+      </div>
     </div>
   );
 }
