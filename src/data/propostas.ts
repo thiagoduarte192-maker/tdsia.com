@@ -214,8 +214,8 @@ export const propostas: Record<string, Proposta> = {
       "Plataforma Completa NovaGush — Pós-Venda + Fidelidade Própria",
     data: "09 de Junho de 2026",
     validade: "15 dias",
-    preco: 28000,
-    mensalidade: 1500,
+    preco: 25000,
+    mensalidade: 1000,
     prazoSemanas: 8,
     setupItens: [
       "Tudo da Fase 1 (Área do Cliente + Painel da Loja)",
@@ -229,11 +229,11 @@ export const propostas: Record<string, Proposta> = {
       "Hospedagem profissional + SSL + domínio próprio",
       "Treinamento da equipe + manual em vídeo",
       "30 dias de suporte pós-entrega",
-      "⚡ Economia de R$ 6.000 vs contratar as fases separadas",
+      "⚡ Economia de R$ 9.000 vs contratar as fases separadas",
     ],
     carta: [
       "Gustavo, com base na nossa conversa: faz total sentido o seu raciocínio. A Fase 1 te entrega controle e organização do financeiro, mas é a Fase 2 (fidelidade) que vai realmente trazer ROI — recompra, cashback, retenção dos clientes oficina.",
-      "Por isso preparei essa proposta combinada Fase 1 + Fase 2: em vez de pagar R$ 34.000 nas duas fases separadas, você fecha tudo agora por R$ 28.000 (economiza R$ 6.000), tem a plataforma completa em ~8 semanas, e substitui o que você paga hoje pelo meuappdefidelidade já incluso no escopo.",
+      "Por isso preparei essa proposta combinada Fase 1 + Fase 2: em vez de pagar R$ 34.000 nas duas fases separadas, você fecha tudo agora por R$ 25.000 (economiza R$ 9.000), tem a plataforma completa em ~8 semanas, e substitui o que você paga hoje pelo meuappdefidelidade já incluso no escopo.",
       "Em vez de um sistema engessado de prateleira, a NovaGush passa a ter uma plataforma própria de pós-venda + fidelidade, integrada ao seu EMSOFT e ao seu e-commerce, com a sua marca e as suas regras.",
     ],
     dores: [
