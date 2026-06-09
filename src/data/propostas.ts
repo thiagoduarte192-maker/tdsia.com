@@ -7,6 +7,7 @@ export type Proposta = {
     cargo?: string;
   };
   segmento: string;
+  subtituloHero?: string;
   data: string;
   validade: string;
   preco: number;
@@ -33,10 +34,11 @@ export const propostas: Record<string, Proposta> = {
     numero: "2026-001",
     cliente: {
       nome: "Gustavo",
-      empresa: "Loja de Auto Peças",
+      empresa: "NovaGush",
       cargo: "Proprietário",
     },
-    segmento: "Auto Peças B2B",
+    segmento: "NovaGush — Auto Peças",
+    subtituloHero: "Plataforma de Pós-Venda e Relacionamento — NovaGush",
     data: "09 de Junho de 2026",
     validade: "30 dias",
     preco: 10000,
@@ -44,8 +46,8 @@ export const propostas: Record<string, Proposta> = {
     mensalidade: 500,
     prazoSemanas: 4,
     carta: [
-      "Conversamos sobre como melhorar a relação com seus clientes oficina e dar mais agilidade ao financeiro da sua loja. Esta proposta apresenta a solução que desenhei especificamente para o seu caso.",
-      "Em vez de um sistema engessado de prateleira, você vai ter uma plataforma própria que cresce com você, integrada ao seu sistema de vendas, com sua marca e suas regras.",
+      "Conversamos sobre como melhorar a relação com seus clientes oficina depois da venda. A NovaGush já tem o e-commerce (novagush.com.br) rodando muito bem para captar e fechar pedidos — esta proposta é sobre o que acontece DEPOIS: cobrança, fidelidade, recompra e suporte aos clientes recorrentes.",
+      "Em vez de um sistema engessado de prateleira, você vai ter uma plataforma própria de pós-venda, integrada ao seu sistema de vendas e ao seu e-commerce, com a sua marca e as suas regras.",
     ],
     dores: [
       {
@@ -102,6 +104,7 @@ export const propostas: Record<string, Proposta> = {
     inclui: [
       { titulo: "Design e UX personalizados", desc: "Sua marca, suas cores, identidade visual própria" },
       { titulo: "Integração com seu sistema", desc: "Conexão com seu ERP de vendas — notas, clientes, vales" },
+      { titulo: "Integração com o e-commerce", desc: "Conexão com novagush.com.br — histórico de compras unificado" },
       { titulo: "Login e autenticação", desc: "Cada oficina com acesso individual seguro" },
       { titulo: "Gateway de pagamento", desc: "PIX + cartão de crédito (Mercado Pago / Asaas)" },
       { titulo: "Hospedagem profissional", desc: "Servidor rápido, SSL, domínio próprio" },
@@ -130,16 +133,6 @@ export const propostas: Record<string, Proposta> = {
     roadmap: [
       {
         fase: "Fase 2",
-        titulo: "Compras online",
-        itens: [
-          "Catálogo de produtos com preço por cliente",
-          "Carrinho e pedido online",
-          "Consulta de estoque em tempo real",
-          "Recompra com 1 clique",
-        ],
-      },
-      {
-        fase: "Fase 3",
         titulo: "Programa de fidelidade próprio",
         itens: [
           "Substituir sistema atual de pontos",
@@ -150,21 +143,21 @@ export const propostas: Record<string, Proposta> = {
         ],
       },
       {
-        fase: "Fase 4",
-        titulo: "Gestão para a oficina",
+        fase: "Fase 3",
+        titulo: "Gestão para a oficina cliente",
         itens: [
-          "Ficha de veículo",
+          "Ficha de veículo dos clientes da oficina",
           "Ordem de serviço simples",
-          "Lembrete de manutenção",
+          "Lembrete de manutenção (oficina → cliente final)",
           "CRM básico para o mecânico",
         ],
       },
       {
-        fase: "Fase 5",
+        fase: "Fase 4",
         titulo: "Engajamento e indicação",
         itens: [
-          "Programa indique e ganhe",
-          "Stories de promoções",
+          "Programa indique e ganhe (oficina → oficina)",
+          "Stories de promoções da NovaGush",
           "Disparo de comunicados via WhatsApp",
           "Avaliação pós-entrega",
         ],
@@ -172,9 +165,9 @@ export const propostas: Record<string, Proposta> = {
     ],
     whatsappLink: "https://wa.me/5521965269795",
     whatsappMensagemAceitar:
-      "Olá Thiago! Recebi a proposta da TDS Soluções Digitais e quero seguir com o projeto.",
+      "Olá Thiago! Sou o Gustavo da NovaGush. Recebi a proposta da TDS Soluções Digitais e quero seguir com o projeto.",
     whatsappMensagemDuvida:
-      "Olá Thiago! Recebi a proposta e tenho algumas dúvidas antes de fechar.",
+      "Olá Thiago! Sou o Gustavo da NovaGush. Recebi a proposta e tenho algumas dúvidas antes de fechar.",
   },
 };
 

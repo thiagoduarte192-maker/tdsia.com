@@ -70,7 +70,7 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
           <h1 className="mt-6 text-4xl font-bold leading-tight text-white lg:text-6xl">
             Proposta Comercial
             <span className="mt-2 block text-2xl font-medium text-tds-green lg:text-3xl">
-              Plataforma Digital para {p.segmento}
+              {p.subtituloHero ?? `Plataforma Digital para ${p.segmento}`}
             </span>
           </h1>
 
@@ -644,7 +644,7 @@ function MockFrame({
 
 function MockClient() {
   return (
-    <MockFrame title="areacliente.autopecassp.com.br">
+    <MockFrame title="areacliente.novagush.com.br">
       {/* Header do app */}
       <div className="border-b border-tds-border px-4 py-3">
         <div className="flex items-center justify-between">
@@ -656,7 +656,7 @@ function MockClient() {
               <p className="text-[8px] uppercase tracking-widest text-slate-500">
                 Área do Cliente
               </p>
-              <p className="text-[10px] font-semibold text-white">Auto Peças SP</p>
+              <p className="text-[10px] font-semibold text-white">NovaGush</p>
             </div>
           </div>
           <div className="text-right">
@@ -788,7 +788,7 @@ function MockLoja() {
               <p className="text-[8px] uppercase tracking-widest text-blue-400">
                 Painel Administrativo
               </p>
-              <p className="text-[10px] font-semibold text-white">Auto Peças SP</p>
+              <p className="text-[10px] font-semibold text-white">NovaGush</p>
             </div>
           </div>
         </div>
