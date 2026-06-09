@@ -1,16 +1,33 @@
 import Link from "next/link";
+import { desc } from "drizzle-orm";
 import { propostas, formatBRL } from "@/data/propostas";
 import CopyLinkButton from "./CopyLinkButton";
 import AdminHeader from "@/components/AdminHeader";
+import { db, schema } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
-export default function AdminPropostasPage() {
+export default async function AdminPropostasPage() {
   const lista = Object.values(propostas).sort((a, b) =>
     b.data.localeCompare(a.data)
   );
   const totalValor = lista.reduce((s, p) => s + p.preco, 0);
   const totalMrr = lista.reduce((s, p) => s + (p.mensalidade ?? 0), 0);
+
+  // Aceites por slug (mais recente primeiro)
+  const aceites = await db
+    .select()
+    .from(schema.aceites)
+    .orderBy(desc(schema.aceites.createdAt));
+  const aceitesPorSlug = new Map<string, (typeof aceites)[number]>();
+  for (const a of aceites) {
+    if (!aceitesPorSlug.has(a.propostaSlug)) {
+      aceitesPorSlug.set(a.propostaSlug, a);
+    }
+  }
+  const totalAceitos = aceites.filter(
+    (a) => a.status === "pago" || a.status === "pendente_pagamento"
+  ).length;
 
   return (
     <div className="min-h-screen">
@@ -25,8 +42,13 @@ export default function AdminPropostasPage() {
           </p>
         </div>
 
-        <div className="mb-8 grid gap-4 sm:grid-cols-3">
+        <div className="mb-8 grid gap-4 sm:grid-cols-4">
           <Stat label="Propostas ativas" value={lista.length.toString()} />
+          <Stat
+            label="Aceites recebidos"
+            value={totalAceitos.toString()}
+            accent="text-tds-green"
+          />
           <Stat
             label="Soma dos setups"
             value={formatBRL(totalValor)}
@@ -52,7 +74,9 @@ export default function AdminPropostasPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-tds-border">
-              {lista.map((p) => (
+              {lista.map((p) => {
+                const aceite = aceitesPorSlug.get(p.slug);
+                return (
                 <tr key={p.slug} className="hover:bg-tds-bg/50">
                   <td className="px-5 py-3">
                     <p className="font-mono text-xs text-tds-green">
@@ -61,10 +85,29 @@ export default function AdminPropostasPage() {
                     <p className="text-xs text-slate-500">{p.segmento}</p>
                   </td>
                   <td className="px-5 py-3">
-                    <p className="font-medium text-white">{p.cliente.nome}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="font-medium text-white">{p.cliente.nome}</p>
+                      {aceite && (
+                        <span
+                          className={`rounded px-1.5 py-0.5 text-[9px] font-bold uppercase ${
+                            aceite.status === "pago"
+                              ? "bg-tds-green/20 text-tds-green"
+                              : "bg-amber-500/20 text-amber-300"
+                          }`}
+                          title={`Aceito por ${aceite.nomeCompleto} em ${new Date(aceite.createdAt).toLocaleString("pt-BR")}`}
+                        >
+                          {aceite.status === "pago" ? "Pago ✓" : "Aceito"}
+                        </span>
+                      )}
+                    </div>
                     <p className="text-xs text-slate-500">
                       {p.cliente.empresa ?? "—"}
                     </p>
+                    {aceite && (
+                      <p className="mt-0.5 text-[10px] text-slate-500">
+                        Aceito em {new Date(aceite.createdAt).toLocaleDateString("pt-BR")}
+                      </p>
+                    )}
                   </td>
                   <td className="px-5 py-3 whitespace-nowrap text-slate-300">
                     {p.data}
@@ -88,7 +131,8 @@ export default function AdminPropostasPage() {
                     </div>
                   </td>
                 </tr>
-              ))}
+                );
+              })}
               {lista.length === 0 && (
                 <tr>
                   <td

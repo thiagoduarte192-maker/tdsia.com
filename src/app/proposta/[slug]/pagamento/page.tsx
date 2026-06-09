@@ -4,6 +4,8 @@ import Image from "next/image";
 import { eq } from "drizzle-orm";
 import { db, schema } from "@/lib/db";
 import { propostas, formatBRL } from "@/data/propostas";
+import { criarPreferenciaParaAceite } from "./actions";
+import BrickPagamento from "./BrickPagamento";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +15,7 @@ export default async function PagamentoPage(
   const { slug } = await props.params;
   const sp = await props.searchParams;
   const aceiteId = Number(sp.aceite);
+  const failure = sp.status === "failure";
 
   const proposta = propostas[slug];
   if (!proposta) notFound();
@@ -27,6 +30,15 @@ export default async function PagamentoPage(
   if (!aceite || aceite.propostaSlug !== slug) {
     redirect(`/proposta/${slug}/aceitar`);
   }
+
+  // Se já pago, vai pra tela de sucesso
+  if (aceite.status === "pago") {
+    redirect(`/proposta/${slug}/sucesso?aceite=${aceiteId}`);
+  }
+
+  // Cria/recupera preferência do MP
+  const prefResult = await criarPreferenciaParaAceite(aceiteId);
+  const publicKey = process.env.NEXT_PUBLIC_MP_PUBLIC_KEY ?? "";
 
   const valor = Number(aceite.valorAceito);
   const valorParcelado = valor / aceite.numeroParcelas;
@@ -57,20 +69,27 @@ export default async function PagamentoPage(
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
               <path d="M5 13l4 4L19 7" />
             </svg>
-            Aceite registrado com sucesso — {aceite.nomeCompleto}
+            Aceite registrado — {aceite.nomeCompleto}
           </p>
           <p className="mt-1 text-xs text-slate-400">
-            Sua manifestação de vontade foi gravada às{" "}
-            {new Date(aceite.createdAt).toLocaleString("pt-BR")} com IP{" "}
-            <span className="font-mono">{aceite.ip ?? "—"}</span>
+            Registrado às {new Date(aceite.createdAt).toLocaleString("pt-BR")}{" "}
+            • IP <span className="font-mono">{aceite.ip ?? "—"}</span>
           </p>
         </div>
 
         <h1 className="text-3xl font-bold text-white lg:text-4xl">Pagamento</h1>
         <p className="mt-2 text-slate-400">
-          Escolha a forma de pagar. Tudo processado com segurança pelo Mercado
-          Pago, sem você sair do site.
+          Escolha PIX ou cartão de crédito. Tudo processado pelo Mercado Pago,
+          com segurança e sem você sair do site.
         </p>
+
+        {failure && (
+          <div className="mt-6 rounded-xl border border-red-500/30 bg-red-500/10 p-4">
+            <p className="text-sm font-medium text-red-200">
+              Pagamento não concluído. Você pode tentar novamente abaixo.
+            </p>
+          </div>
+        )}
 
         {/* Resumo */}
         <section className="mt-6 rounded-xl border border-tds-border bg-tds-panel p-5">
@@ -101,46 +120,39 @@ export default async function PagamentoPage(
           </div>
         </section>
 
-        {/* Placeholder enquanto MP não está integrado */}
-        <section className="mt-6 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-6">
-          <div className="flex items-start gap-3">
-            <span className="text-2xl">🚧</span>
-            <div>
-              <h2 className="text-base font-bold text-amber-200">
-                Aguardando configuração do Mercado Pago
-              </h2>
-              <p className="mt-2 text-sm text-amber-100/80">
-                O aceite formal já está registrado e tem validade jurídica. O
-                checkout integrado (PIX + Cartão) será ativado assim que as
-                credenciais do Mercado Pago forem configuradas.
-              </p>
-              <p className="mt-3 text-sm text-amber-100/80">
-                Enquanto isso, a TDS entrará em contato pelo WhatsApp em{" "}
-                <a
-                  href={`https://wa.me/5521965269795?text=${encodeURIComponent(
-                    `Olá! Aceitei a proposta #${aceite.propostaNumero}. Aceite ID: ${aceite.id}`
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold text-tds-green underline"
-                >
-                  (21) 96526-9795
-                </a>{" "}
-                para combinar a forma de pagamento.
-              </p>
-              <a
-                href={`https://wa.me/5521965269795?text=${encodeURIComponent(
-                  `Olá! Aceitei a proposta #${aceite.propostaNumero} agora. Aceite ID: ${aceite.id}. Como combinamos o pagamento?`
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 inline-block rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-emerald-700"
-              >
-                💬 Falar no WhatsApp agora
-              </a>
-            </div>
-          </div>
-        </section>
+        {/* Brick de pagamento */}
+        {prefResult.ok && publicKey ? (
+          <section className="mt-6">
+            <p className="mb-3 text-xs text-slate-500">
+              Preferência <span className="font-mono text-tds-green">{prefResult.preferenceId.slice(-12)}</span>
+            </p>
+            <BrickPagamento
+              preferenceId={prefResult.preferenceId}
+              valor={valor}
+              parcelas={Math.max(1, Math.min(12, aceite.numeroParcelas))}
+              publicKey={publicKey}
+            />
+          </section>
+        ) : (
+          <section className="mt-6 rounded-2xl border border-red-500/30 bg-red-500/5 p-6">
+            <h2 className="text-base font-bold text-red-200">
+              Não foi possível iniciar o pagamento online
+            </h2>
+            <p className="mt-2 text-sm text-red-100/80">
+              {prefResult.ok ? "Public Key não configurado." : prefResult.error}
+            </p>
+            <a
+              href={`https://wa.me/5521965269795?text=${encodeURIComponent(
+                `Olá! Aceitei a proposta #${aceite.propostaNumero} (Aceite ${aceite.id}) mas tive dificuldade no pagamento online. Podemos combinar?`
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-block rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white hover:bg-emerald-700"
+            >
+              💬 Falar com a TDS no WhatsApp
+            </a>
+          </section>
+        )}
 
         <p className="mt-8 text-center text-xs text-slate-500">
           Aceite registrado em {new Date(aceite.createdAt).toLocaleString("pt-BR")}{" "}
