@@ -61,26 +61,26 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
       <header className="relative overflow-hidden border-b border-tds-border">
         <BrainBackground />
 
-        <div className="relative mx-auto max-w-5xl px-6 py-20 lg:py-28">
+        <div className="relative mx-auto max-w-5xl px-6 pt-10 pb-16 lg:pt-14 lg:pb-20">
           <div className="inline-flex items-center gap-2 rounded-full border border-tds-green/30 bg-tds-green/5 px-3 py-1 text-xs font-medium text-tds-green-bright">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-tds-green glow" />
             TDS Soluções Digitais
           </div>
 
-          <h1 className="mt-6 text-4xl font-bold leading-tight text-white lg:text-6xl">
+          <h1 className="mt-5 text-4xl font-bold leading-tight text-white lg:text-6xl">
             Proposta Comercial
             <span className="mt-2 block text-2xl font-medium text-tds-green lg:text-3xl">
               {p.subtituloHero ?? `Plataforma Digital para ${p.segmento}`}
             </span>
           </h1>
 
-          <p className="mt-8 max-w-2xl text-lg text-slate-400">
+          <p className="mt-6 max-w-2xl text-lg text-slate-400">
             Uma área do cliente moderna + painel administrativo, integrados ao
             seu sistema de vendas. Reduza ligações de cobrança, acelere o
             recebimento e tenha visão completa do seu negócio.
           </p>
 
-          <div className="mt-12 grid gap-4 border-t border-tds-border pt-6 text-sm sm:grid-cols-3">
+          <div className="mt-10 grid gap-4 border-t border-tds-border pt-6 text-sm sm:grid-cols-3">
             <div>
               <p className="text-xs uppercase tracking-widest text-tds-green">Para</p>
               <p className="mt-1 font-semibold text-white">{p.cliente.nome}</p>
@@ -92,9 +92,13 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
               <p className="text-slate-500">Validade: {p.validade}</p>
             </div>
             <div>
-              <p className="text-xs uppercase tracking-widest text-tds-green">Investimento</p>
-              <p className="mt-1 text-2xl font-bold text-tds-green">{formatBRL(p.preco)}</p>
-              <p className="text-slate-500">+ {formatBRL(p.mensalidade)}/mês</p>
+              <p className="text-xs uppercase tracking-widest text-tds-green">
+                Prazo de entrega
+              </p>
+              <p className="mt-1 text-2xl font-bold text-tds-green">
+                {p.prazoSemanas} semanas
+              </p>
+              <p className="text-slate-500">Após o início do projeto</p>
             </div>
           </div>
         </div>
@@ -311,9 +315,7 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
                 {formatBRL(p.preco)}
               </p>
               <p className="mt-1 text-sm text-slate-400">
-                Pagamento em 2 parcelas:{" "}
-                {formatBRL(p.preco * (p.parcelas.entregaPct / 100))} no início +{" "}
-                {formatBRL(p.preco * (1 - p.parcelas.entregaPct / 100))} na entrega
+                Forma de pagamento: a combinar
               </p>
 
               <ul className="mt-6 space-y-2 text-sm">
@@ -351,10 +353,8 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
 
           <div className="mt-8 rounded-xl border border-amber-500/30 bg-amber-500/5 p-5">
             <p className="text-sm text-amber-200">
-              <strong>O que NÃO está incluso:</strong> taxas do gateway de
-              pagamento (PIX ~0,99% / cartão ~3,99%, repassadas pelo Mercado
-              Pago ou Asaas) e eventual custo de liberação da API do seu sistema
-              de vendas pelo fornecedor.
+              <strong>O que NÃO está incluso:</strong> eventual custo de
+              liberação da API do seu sistema de vendas pelo fornecedor.
             </p>
           </div>
         </div>
@@ -440,7 +440,7 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
         <div className="mx-auto max-w-3xl px-6 py-12">
           <h2 className="text-lg font-bold text-white">Termos e condições</h2>
           <ul className="mt-4 space-y-2 text-sm text-slate-400">
-            <li>• Pagamento em 2 parcelas: 50% no início, 50% na entrega.</li>
+            <li>• Forma e parcelamento do pagamento a combinar no fechamento.</li>
             <li>• Mensalidade de manutenção cobrada a partir do 4º mês após go-live.</li>
             <li>• Prazo de {p.prazoSemanas} semanas contado a partir da liberação do acesso ao sistema de vendas atual.</li>
             <li>• Caso a integração com o ERP exija liberação ou custo do fornecedor, esse custo é repassado.</li>
