@@ -83,7 +83,7 @@ export default function Home() {
       <section className="relative overflow-hidden">
         <BrainBackground />
         <div className="relative mx-auto max-w-6xl px-6 pt-10 pb-16 lg:pt-14 lg:pb-24">
-          <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
+          <div className="grid gap-12 lg:grid-cols-12 lg:items-start">
             <div className="lg:col-span-7">
               <div className="inline-flex items-center gap-2 rounded-full border border-tds-green/30 bg-tds-green/5 px-3 py-1 text-xs font-medium text-tds-green-bright">
                 <span className="inline-block h-1.5 w-1.5 rounded-full bg-tds-green glow" />
