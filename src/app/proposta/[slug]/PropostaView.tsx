@@ -163,12 +163,24 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
                 ))}
               </ul>
             </div>
-            {p.slug === "bruna" ? <MockFeegow /> : <MockClient />}
+            {p.slug === "bruna" ? (
+              <MockFeegow />
+            ) : p.slug === "gustavo-completo" ? (
+              <MockClient />
+            ) : (
+              <MockClient />
+            )}
           </div>
 
           <div className="mt-20 grid gap-8 lg:grid-cols-2 lg:items-center">
             <div className="order-2 lg:order-1">
-              {p.slug === "bruna" ? <MockWhatsapp /> : <MockLoja />}
+              {p.slug === "bruna" ? (
+                <MockWhatsapp />
+              ) : p.slug === "gustavo-completo" ? (
+                <MockFidelidade />
+              ) : (
+                <MockLoja />
+              )}
             </div>
             <div className="order-1 lg:order-2">
               <Tag cor="blue">Sistema 2 — Bônus incluso</Tag>
@@ -865,6 +877,142 @@ function FluxoChip({
     >
       <span>{emoji}</span>
       <span>{nome}</span>
+    </div>
+  );
+}
+
+function MockFidelidade() {
+  return (
+    <MockFrame title="app.novagush.com.br/fidelidade" badge="PWA">
+      {/* Header app */}
+      <div className="border-b border-tds-border bg-tds-bg/80 px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="flex h-6 w-6 items-center justify-center rounded bg-blue-500/90 text-[9px] font-bold text-white">
+              NG
+            </div>
+            <div>
+              <p className="text-[8px] uppercase tracking-widest text-amber-300">
+                Programa de Fidelidade
+              </p>
+              <p className="text-[10px] font-semibold text-white">NovaGush Cashback</p>
+            </div>
+          </div>
+          <div className="rounded-full bg-tds-green/20 px-2 py-0.5 text-[8px] font-bold text-tds-green">
+            Oficina São Cristóvão
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-tds-bg/60 px-4 py-3">
+        {/* Saldo destacado */}
+        <div className="rounded-xl bg-gradient-to-br from-tds-green to-tds-green-deep p-3 shadow-lg shadow-tds-green/20">
+          <p className="text-[8px] uppercase tracking-widest text-tds-bg/70">
+            Seu saldo
+          </p>
+          <p className="text-2xl font-bold text-tds-bg leading-none">
+            8.430 <span className="text-xs font-medium">pts</span>
+          </p>
+          <p className="mt-1 text-[9px] text-tds-bg/80">
+            Equivale a <strong>R$ 168,60</strong> em prêmios
+          </p>
+        </div>
+
+        {/* KPIs do mês */}
+        <div className="mt-2 grid grid-cols-3 gap-1.5">
+          <KpiMini label="Ganhos no mês" valor="+420 pts" cor="text-tds-green" />
+          <KpiMini label="Resgates" valor="2" cor="text-blue-300" />
+          <KpiMini label="Posição" valor="#5 / 142" cor="text-amber-300" />
+        </div>
+
+        {/* Catálogo */}
+        <div className="mt-2 rounded border border-tds-border bg-tds-panel/60 p-2">
+          <div className="flex items-center justify-between">
+            <p className="text-[9px] uppercase tracking-widest text-slate-500">
+              Catálogo de prêmios
+            </p>
+            <span className="rounded bg-amber-500/20 px-1.5 py-0.5 text-[7px] font-bold text-amber-300">
+              Acelerador COFAP 2x
+            </span>
+          </div>
+          <div className="mt-1.5 space-y-1">
+            <PremioRow nome="Vale R$ 50 (qualquer compra)" pontos="2.500" status="disponivel" />
+            <PremioRow nome="Filtro de óleo Fram (kit)" pontos="3.800" status="disponivel" />
+            <PremioRow nome="Pastilha COFAP dianteira" pontos="6.200" status="disponivel" />
+            <PremioRow nome="Bateria 60Ah Moura" pontos="42.000" status="bloqueado" />
+          </div>
+        </div>
+
+        {/* Histórico recente */}
+        <div className="mt-2 rounded border border-tds-border bg-tds-panel/60 p-2">
+          <p className="text-[9px] uppercase tracking-widest text-slate-500">
+            Histórico recente
+          </p>
+          <div className="mt-1 space-y-0.5">
+            <HistoricoRow tipo="ganho" desc="NF 18.612 (PIX) — Filtro + óleo" valor="+187 pts" />
+            <HistoricoRow tipo="ganho" desc="NF 18.530 — Velas NGK" valor="+126 pts" />
+            <HistoricoRow tipo="resgate" desc="Vale R$ 50 utilizado" valor="-2.500 pts" />
+            <HistoricoRow tipo="bloqueado" desc="NF 18.421 (carteira) — aguarda baixa" valor="+89 pts" />
+          </div>
+        </div>
+      </div>
+    </MockFrame>
+  );
+}
+
+function PremioRow({
+  nome,
+  pontos,
+  status,
+}: {
+  nome: string;
+  pontos: string;
+  status: "disponivel" | "bloqueado";
+}) {
+  return (
+    <div className="flex items-center justify-between text-[9px]">
+      <span className="flex-1 truncate text-slate-300">{nome}</span>
+      <span
+        className={`ml-2 font-bold ${
+          status === "disponivel" ? "text-tds-green" : "text-slate-500"
+        }`}
+      >
+        {pontos} pts
+      </span>
+      <span
+        className={`ml-2 rounded px-1.5 py-px text-[7px] font-bold ${
+          status === "disponivel"
+            ? "bg-tds-green/20 text-tds-green"
+            : "bg-slate-500/20 text-slate-400"
+        }`}
+      >
+        {status === "disponivel" ? "Resgatar" : "Saldo —"}
+      </span>
+    </div>
+  );
+}
+
+function HistoricoRow({
+  tipo,
+  desc,
+  valor,
+}: {
+  tipo: "ganho" | "resgate" | "bloqueado";
+  desc: string;
+  valor: string;
+}) {
+  const cor =
+    tipo === "ganho"
+      ? "text-tds-green"
+      : tipo === "resgate"
+      ? "text-blue-300"
+      : "text-amber-300";
+  const icone = tipo === "ganho" ? "↑" : tipo === "resgate" ? "↓" : "⏱";
+  return (
+    <div className="flex items-center gap-1.5 py-0.5 text-[8px]">
+      <span className={`font-bold ${cor}`}>{icone}</span>
+      <span className="flex-1 truncate text-slate-300">{desc}</span>
+      <span className={`font-bold ${cor}`}>{valor}</span>
     </div>
   );
 }
