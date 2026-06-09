@@ -339,12 +339,12 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
                 A partir do 4º mês após go-live
               </p>
               <ul className="mt-6 space-y-2 text-sm">
-                <Check>Hospedagem e SSL</Check>
-                <Check>Backup diário</Check>
-                <Check>Suporte por WhatsApp</Check>
-                <Check>Correções de bugs</Check>
-                <Check>Pequenos ajustes mensais</Check>
-                <Check>Monitoramento 24/7</Check>
+                <Check>Hospedagem no servidor da TDS + SSL renovado</Check>
+                <Check>Backup diário com 30 dias de retenção</Check>
+                <Check>Suporte por WhatsApp em horário comercial</Check>
+                <Check>Correções de bugs sem custo extra</Check>
+                <Check>Até 4h/mês de pequenos ajustes ou melhorias</Check>
+                <Check>Monitoramento 24/7 e alertas de falha</Check>
               </ul>
             </div>
           </div>
