@@ -159,12 +159,22 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
                 ))}
               </ul>
             </div>
-            <MockClient />
+            <Screenshot
+              src="/screenshots/notas-em-aberto.png"
+              alt="Tela de notas em aberto da Área do Cliente"
+              width={1400}
+              height={1100}
+            />
           </div>
 
           <div className="mt-20 grid gap-8 lg:grid-cols-2 lg:items-center">
             <div className="order-2 lg:order-1">
-              <MockLoja />
+              <Screenshot
+                src="/screenshots/painel-loja.png"
+                alt="Painel administrativo da loja — visão geral"
+                width={1400}
+                height={1600}
+              />
             </div>
             <div className="order-1 lg:order-2">
               <Tag cor="blue">Sistema 2 — Bônus incluso</Tag>
@@ -210,10 +220,71 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
         </div>
       </section>
 
+      {/* SEGURANÇA */}
+      <section className="relative overflow-hidden border-b border-tds-border">
+        <div className="absolute inset-0 bg-gradient-to-br from-tds-green/5 via-transparent to-transparent" />
+        <div className="relative mx-auto max-w-5xl px-6 py-16 lg:py-20">
+          <Eyebrow numero="05" titulo="Segurança e propriedade dos dados" />
+          <h2 className="mt-3 text-3xl font-bold text-white lg:text-4xl">
+            Seus dados, suas regras.
+          </h2>
+          <p className="mt-4 max-w-3xl text-lg text-slate-400">
+            Esta é a sua plataforma — não a minha. Tudo o que entra no sistema
+            (clientes, notas, vales, transações) fica armazenado em
+            infraestrutura controlada por você, com as melhores práticas de
+            segurança do mercado.
+          </p>
+
+          <div className="mt-10 grid gap-4 sm:grid-cols-2">
+            <SegurancaCard
+              titulo="Você é dono dos dados"
+              desc="Banco de dados hospedado em servidor da sua escolha (seu VPS, sua conta cloud ou hospedagem própria). Nenhuma informação sai do seu controle."
+            />
+            <SegurancaCard
+              titulo="Sem vendor lock-in"
+              desc="O código-fonte é entregue ao final do projeto. Você pode trocar de fornecedor, hospedagem ou continuar evoluindo internamente — sem dependência."
+            />
+            <SegurancaCard
+              titulo="Senhas com hash"
+              desc="Senhas de clientes nunca são armazenadas em texto. Usamos bcrypt — padrão de mercado. Mesmo se houvesse vazamento, as senhas continuariam protegidas."
+            />
+            <SegurancaCard
+              titulo="HTTPS e certificado SSL"
+              desc="Toda comunicação entre o navegador do cliente e o servidor é criptografada (TLS 1.3). Certificado válido emitido por autoridade reconhecida, renovado automaticamente."
+            />
+            <SegurancaCard
+              titulo="Backup diário automático"
+              desc="Snapshots do banco de dados todo dia, retidos por 30 dias. Em caso de falha de hardware ou erro humano, restauração possível em minutos."
+            />
+            <SegurancaCard
+              titulo="Aderente à LGPD"
+              desc="Registro de consentimento, exportação dos dados do cliente em formato padrão, exclusão sob demanda. Política de privacidade adequada ao escopo."
+            />
+            <SegurancaCard
+              titulo="Logs de auditoria"
+              desc="Cada login, alteração e acesso a dados sensíveis fica registrado com data, IP e usuário. Você sabe quem fez o quê e quando."
+            />
+            <SegurancaCard
+              titulo="Princípio do menor privilégio"
+              desc="Cada usuário acessa apenas os dados que precisa. Oficinas veem só os próprios dados. Sua equipe interna tem permissões separadas."
+            />
+          </div>
+
+          <div className="mt-8 rounded-xl border border-tds-green/30 bg-tds-green/5 p-5">
+            <p className="text-sm text-slate-200">
+              <strong className="text-tds-green">Compromisso por escrito:</strong>{" "}
+              tudo isso fica formalizado em contrato. A TDS não revende, não
+              compartilha e não usa os dados dos seus clientes para nenhum
+              outro fim além de operar a plataforma para você.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* CRONOGRAMA */}
       <section className="border-b border-tds-border">
         <div className="mx-auto max-w-5xl px-6 py-16 lg:py-20">
-          <Eyebrow numero="05" titulo="Cronograma" />
+          <Eyebrow numero="06" titulo="Cronograma" />
           <h2 className="mt-3 text-3xl font-bold text-white lg:text-4xl">
             Do contrato ao ar em {p.prazoSemanas} semanas
           </h2>
@@ -236,7 +307,7 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
       <section className="relative overflow-hidden border-b border-tds-border">
         <div className="absolute inset-0 bg-gradient-to-br from-tds-green/10 via-transparent to-transparent" />
         <div className="relative mx-auto max-w-5xl px-6 py-16 lg:py-24">
-          <Eyebrow numero="06" titulo="Investimento" />
+          <Eyebrow numero="07" titulo="Investimento" />
           <h2 className="mt-3 text-3xl font-bold text-white lg:text-4xl">
             Valor justo, sem surpresas
           </h2>
@@ -302,7 +373,7 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
       {/* ROADMAP */}
       <section className="border-b border-tds-border">
         <div className="mx-auto max-w-5xl px-6 py-16 lg:py-20">
-          <Eyebrow numero="07" titulo="Roadmap futuro" />
+          <Eyebrow numero="08" titulo="Roadmap futuro" />
           <h2 className="mt-3 text-3xl font-bold text-white lg:text-4xl">
             Esta é a Fase 1 de uma plataforma maior
           </h2>
@@ -343,7 +414,7 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
         <div className="absolute inset-0 bg-gradient-to-br from-tds-green/20 via-tds-green/5 to-transparent" />
         <div className="absolute -top-20 left-1/2 -translate-x-1/2 h-[400px] w-[600px] rounded-full bg-tds-green/20 blur-3xl" />
         <div className="relative mx-auto max-w-5xl px-6 py-20 text-center">
-          <Eyebrow numero="08" titulo="Próximos passos" />
+          <Eyebrow numero="09" titulo="Próximos passos" />
           <h2 className="mt-3 text-4xl font-bold text-white lg:text-5xl">
             Pronto para começar?
           </h2>
@@ -518,112 +589,52 @@ function FaseLinha({
   );
 }
 
-function MockClient() {
+function SegurancaCard({ titulo, desc }: { titulo: string; desc: string }) {
   return (
-    <div className="rounded-2xl border border-tds-border bg-tds-panel p-4 shadow-2xl">
-      <div className="rounded-xl bg-tds-bg p-4 border border-tds-border">
-        <div className="flex items-center justify-between border-b border-tds-border pb-3">
-          <div className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded-md bg-tds-green" />
-            <span className="text-xs font-semibold text-white">Área do Cliente</span>
-          </div>
-        </div>
-        <div className="mt-4 grid grid-cols-3 gap-2">
-          <MiniKpi label="A pagar" valor="R$ 4.227" cor="text-tds-green" />
-          <MiniKpi label="Vencido" valor="R$ 2.180" cor="text-red-400" />
-          <MiniKpi label="Vales" valor="R$ 380" cor="text-blue-400" />
-        </div>
-        <div className="mt-3 space-y-1.5">
-          <MiniLinha numero="NF 18.452" valor="R$ 1.245,90" status="aberta" />
-          <MiniLinha numero="NF 18.501" valor="R$ 2.180,50" status="vencida" />
-          <MiniLinha numero="NF 18.498" valor="R$ 489,00" status="aberta" />
-        </div>
+    <div className="flex gap-3 rounded-xl border border-tds-border bg-tds-panel p-5">
+      <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg bg-tds-green/10 text-tds-green">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+      </div>
+      <div>
+        <p className="font-semibold text-white">{titulo}</p>
+        <p className="mt-1 text-sm text-slate-400">{desc}</p>
       </div>
     </div>
   );
 }
 
-function MockLoja() {
-  return (
-    <div className="rounded-2xl border border-tds-border bg-tds-panel p-4 shadow-2xl">
-      <div className="rounded-xl bg-tds-bg p-4 border border-tds-border">
-        <div className="flex items-center justify-between border-b border-tds-border pb-3">
-          <div className="flex items-center gap-2">
-            <div className="h-7 w-7 rounded-md bg-tds-green" />
-            <span className="text-xs font-semibold text-white">Painel da Loja</span>
-          </div>
-          <span className="rounded bg-tds-green/20 px-2 py-0.5 text-[10px] font-semibold text-tds-green">
-            ADMIN
-          </span>
-        </div>
-        <div className="mt-4 grid grid-cols-2 gap-2">
-          <MiniKpi label="A receber" valor="R$ 69.227" cor="text-tds-green" />
-          <MiniKpi label="Vencido" valor="R$ 15.930" cor="text-red-400" />
-        </div>
-        <div className="mt-3">
-          <p className="text-[10px] uppercase tracking-widest text-slate-500">
-            Top clientes
-          </p>
-          <div className="mt-1 space-y-1">
-            <MiniBarra nome="Diesel Pesados" valor={100} />
-            <MiniBarra nome="Auto Service Premium" valor={85} />
-            <MiniBarra nome="Ferreira & Filhos" valor={70} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function MiniKpi({
-  label,
-  valor,
-  cor,
+function Screenshot({
+  src,
+  alt,
+  width,
+  height,
 }: {
-  label: string;
-  valor: string;
-  cor: string;
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
 }) {
   return (
-    <div className="rounded border border-tds-border bg-tds-panel p-2">
-      <p className="text-[9px] uppercase text-slate-500">{label}</p>
-      <p className={`text-sm font-bold ${cor}`}>{valor}</p>
-    </div>
-  );
-}
-
-function MiniLinha({
-  numero,
-  valor,
-  status,
-}: {
-  numero: string;
-  valor: string;
-  status: "aberta" | "vencida";
-}) {
-  return (
-    <div className="flex items-center justify-between rounded border border-tds-border bg-tds-panel/50 px-2 py-1.5 text-xs">
-      <div className="flex items-center gap-2">
-        <div
-          className={`h-1.5 w-1.5 rounded-full ${
-            status === "vencida" ? "bg-red-400" : "bg-amber-400"
-          }`}
-        />
-        <span className="font-medium text-slate-300">{numero}</span>
-      </div>
-      <span className="font-semibold text-white">{valor}</span>
-    </div>
-  );
-}
-
-function MiniBarra({ nome, valor }: { nome: string; valor: number }) {
-  return (
-    <div className="flex items-center gap-2">
-      <span className="w-32 truncate text-[10px] text-slate-300">{nome}</span>
-      <div className="h-2 flex-1 overflow-hidden rounded-full bg-tds-border">
-        <div
-          className="h-full bg-tds-green"
-          style={{ width: `${valor}%` }}
+    <div className="relative">
+      <div className="absolute -inset-4 rounded-3xl bg-tds-green/10 blur-2xl" />
+      <div className="relative overflow-hidden rounded-2xl border border-tds-border bg-tds-panel p-1.5 shadow-2xl ring-1 ring-tds-green/10">
+        <Image
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          className="h-auto w-full rounded-xl"
         />
       </div>
     </div>
