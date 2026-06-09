@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { formatBRL, type Proposta } from "@/data/propostas";
+import BrainBackground from "@/components/BrainBackground";
 
 export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
   const aceitar = () =>
@@ -58,15 +59,7 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
 
       {/* HERO */}
       <header className="relative overflow-hidden border-b border-tds-border">
-        <div
-          className="absolute inset-0 opacity-[0.08]"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 20% 50%, #10b981 1px, transparent 1px), radial-gradient(circle at 80% 80%, #10b981 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[500px] w-[800px] rounded-full bg-tds-green/10 blur-3xl" />
+        <BrainBackground />
 
         <div className="relative mx-auto max-w-5xl px-6 py-20 lg:py-28">
           <div className="inline-flex items-center gap-2 rounded-full border border-tds-green/30 bg-tds-green/5 px-3 py-1 text-xs font-medium text-tds-green-bright">
