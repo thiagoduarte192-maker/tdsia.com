@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -6,10 +7,14 @@ export default function Footer() {
       <div className="mx-auto max-w-6xl px-6 py-12">
         <div className="grid gap-8 sm:grid-cols-3">
           <div>
-            <p className="font-semibold text-white">
-              TDS <span className="text-tds-green">Soluções Digitais</span>
-            </p>
-            <p className="mt-2 text-sm text-slate-400">
+            <Image
+              src="/tds-logo.png"
+              alt="TDS Soluções Digitais"
+              width={1098}
+              height={375}
+              className="h-12 w-auto"
+            />
+            <p className="mt-3 text-sm text-slate-400">
               Automação · Inteligência de Dados · CRM · WhatsApp · IA
             </p>
           </div>

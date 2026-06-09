@@ -13,9 +13,34 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://tdsia.com"),
   title: "TDS Soluções Digitais — Automação, Dados, WhatsApp e IA",
   description:
     "Especialistas em automação de processos e inteligência de dados. Soluções sob medida para empresas que querem crescer com eficiência.",
+  openGraph: {
+    title: "TDS Soluções Digitais",
+    description:
+      "Automação · Inteligência de Dados · CRM · WhatsApp · IA. Soluções digitais sob medida.",
+    url: "https://tdsia.com",
+    siteName: "TDS Soluções Digitais",
+    locale: "pt_BR",
+    type: "website",
+    images: [
+      {
+        url: "/tds-avatar.png",
+        width: 1024,
+        height: 1024,
+        alt: "TDS Soluções Digitais",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TDS Soluções Digitais",
+    description:
+      "Automação · Inteligência de Dados · CRM · WhatsApp · IA",
+    images: ["/tds-avatar.png"],
+  },
 };
 
 export default function RootLayout({

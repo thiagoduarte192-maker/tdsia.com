@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { formatBRL, type Proposta } from "@/data/propostas";
 
 export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
@@ -21,17 +22,20 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
       <div className="sticky top-0 z-40 border-b border-tds-border bg-tds-bg/90 backdrop-blur print:hidden">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-3">
           <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-tds-green text-tds-bg">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2a4 4 0 0 0-4 4v1H7a3 3 0 0 0-3 3v1H3a2 2 0 1 0 0 4h1v1a3 3 0 0 0 3 3h1v1a4 4 0 0 0 8 0v-1h1a3 3 0 0 0 3-3v-1h1a2 2 0 1 0 0-4h-1v-1a3 3 0 0 0-3-3h-1V6a4 4 0 0 0-4-4z" />
-              </svg>
-            </div>
-            <div>
+            <Image
+              src="/tds-logo.png"
+              alt="TDS Soluções Digitais"
+              width={1098}
+              height={375}
+              className="h-10 w-auto"
+              priority
+            />
+            <div className="hidden sm:block border-l border-tds-border pl-3">
               <p className="text-xs text-slate-400">
                 Proposta <span className="font-mono text-tds-green">#{p.numero}</span>
               </p>
               <p className="text-[10px] uppercase tracking-wider text-slate-500">
-                TDS Soluções Digitais
+                Confidencial
               </p>
             </div>
           </div>
@@ -399,10 +403,14 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
         <div className="mx-auto max-w-5xl px-6 py-10">
           <div className="flex flex-wrap items-center justify-between gap-6">
             <div>
-              <p className="font-semibold text-white">
-                TDS <span className="text-tds-green">Soluções Digitais</span>
-              </p>
-              <p className="text-sm text-slate-500">
+              <Image
+                src="/tds-logo.png"
+                alt="TDS Soluções Digitais"
+                width={1098}
+                height={375}
+                className="h-12 w-auto"
+              />
+              <p className="mt-2 text-sm text-slate-500">
                 Automação · Inteligência de Dados · CRM · WhatsApp · IA
               </p>
             </div>
