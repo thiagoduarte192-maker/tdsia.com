@@ -5,6 +5,10 @@ import { formatBRL, type Proposta } from "@/data/propostas";
 import BrainBackground from "@/components/BrainBackground";
 
 export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
+  // Feature flag: pagamento online (aceite + Mercado Pago) só ativo se NEXT_PUBLIC_PAGAMENTO_ONLINE_ATIVO=true
+  const pagamentoOnlineAtivo =
+    process.env.NEXT_PUBLIC_PAGAMENTO_ONLINE_ATIVO === "true";
+
   const aceitar = () =>
     window.open(
       `${p.whatsappLink}?text=${encodeURIComponent(p.whatsappMensagemAceitar)}`,
@@ -441,15 +445,21 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
           </p>
 
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap print:hidden">
-            <a
-              href={`/proposta/${p.slug}/aceitar`}
-              className="rounded-lg bg-tds-green px-8 py-4 text-base font-bold text-tds-bg shadow-2xl shadow-tds-green/30 hover:bg-tds-green-bright"
-            >
-              ⚡ Aceitar e pagar agora
-            </a>
+            {pagamentoOnlineAtivo && (
+              <a
+                href={`/proposta/${p.slug}/aceitar`}
+                className="rounded-lg bg-tds-green px-8 py-4 text-base font-bold text-tds-bg shadow-2xl shadow-tds-green/30 hover:bg-tds-green-bright"
+              >
+                ⚡ Aceitar e pagar agora
+              </a>
+            )}
             <button
               onClick={aceitar}
-              className="rounded-lg border-2 border-tds-green/50 bg-tds-bg/50 px-8 py-4 text-base font-bold text-white hover:bg-tds-green/10"
+              className={
+                pagamentoOnlineAtivo
+                  ? "rounded-lg border-2 border-tds-green/50 bg-tds-bg/50 px-8 py-4 text-base font-bold text-white hover:bg-tds-green/10"
+                  : "rounded-lg bg-tds-green px-8 py-4 text-base font-bold text-tds-bg shadow-2xl shadow-tds-green/30 hover:bg-tds-green-bright"
+              }
             >
               ✓ Aceitar via WhatsApp
             </button>
@@ -460,9 +470,11 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
               Tirar dúvidas
             </button>
           </div>
-          <p className="mt-4 text-xs text-slate-500 print:hidden">
-            Pagando agora você economiza tempo: assinatura digital, PIX ou cartão até 12x, e o projeto começa nesta semana.
-          </p>
+          {pagamentoOnlineAtivo && (
+            <p className="mt-4 text-xs text-slate-500 print:hidden">
+              Pagando agora você economiza tempo: assinatura digital, PIX ou cartão até 12x, e o projeto começa nesta semana.
+            </p>
+          )}
 
           <p className="mt-10 text-xs text-slate-500">
             Esta proposta é válida por {p.validade} a partir de {p.data}.
