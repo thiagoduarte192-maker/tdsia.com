@@ -35,3 +35,78 @@ body {
 .glow {
   animation: pulse-glow 3s ease-in-out infinite;
 }
+
+/* === Brain Background — fluxo das linhas neurais === */
+.brain-pulse {
+  stroke-dasharray: 30 600;
+  stroke-dashoffset: 0;
+  animation: brain-pulse-flow linear infinite;
+}
+
+@keyframes brain-pulse-flow {
+  0% {
+    stroke-dashoffset: 630;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  90% {
+    opacity: 0.9;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+.brain-node-core {
+  animation: brain-node-pulse 3.5s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.brain-node-glow {
+  opacity: 0.15;
+  animation: brain-node-glow 3.5s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+  filter: blur(6px);
+}
+
+@keyframes brain-node-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+}
+
+@keyframes brain-node-glow {
+  0%,
+  100% {
+    opacity: 0.05;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow,
+  .brain-pulse,
+  .brain-node-core,
+  .brain-node-glow {
+    animation: none;
+  }
+  .brain-pulse {
+    opacity: 0.3;
+    stroke-dasharray: none;
+  }
+}

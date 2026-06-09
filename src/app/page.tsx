@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import BrainBackground from "@/components/BrainBackground";
 
 type Servico = {
   icone: React.ReactNode;
@@ -80,17 +81,7 @@ export default function Home() {
 
       {/* HERO */}
       <section className="relative overflow-hidden">
-        <div
-          className="absolute inset-0 opacity-[0.07]"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 20% 30%, #10b981 1px, transparent 1px), radial-gradient(circle at 70% 80%, #10b981 1px, transparent 1px)",
-            backgroundSize: "50px 50px",
-          }}
-        />
-        <div
-          className="absolute -top-40 left-1/2 -translate-x-1/2 h-[500px] w-[800px] rounded-full bg-tds-green/10 blur-3xl"
-        />
+        <BrainBackground />
         <div className="relative mx-auto max-w-6xl px-6 py-20 lg:py-32">
           <div className="grid gap-12 lg:grid-cols-12 lg:items-center">
             <div className="lg:col-span-7">
