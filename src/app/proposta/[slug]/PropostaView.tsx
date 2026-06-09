@@ -428,20 +428,29 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
             está no ar.
           </p>
 
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row print:hidden">
-            <button
-              onClick={aceitar}
+          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap print:hidden">
+            <a
+              href={`/proposta/${p.slug}/aceitar`}
               className="rounded-lg bg-tds-green px-8 py-4 text-base font-bold text-tds-bg shadow-2xl shadow-tds-green/30 hover:bg-tds-green-bright"
             >
-              ✓ Aceitar proposta via WhatsApp
+              ⚡ Aceitar e pagar agora
+            </a>
+            <button
+              onClick={aceitar}
+              className="rounded-lg border-2 border-tds-green/50 bg-tds-bg/50 px-8 py-4 text-base font-bold text-white hover:bg-tds-green/10"
+            >
+              ✓ Aceitar via WhatsApp
             </button>
             <button
               onClick={duvida}
-              className="rounded-lg border-2 border-tds-green/50 bg-tds-bg/50 px-8 py-4 text-base font-bold text-white hover:bg-tds-green/10"
+              className="rounded-lg border-2 border-slate-700 bg-tds-bg/50 px-8 py-4 text-base font-bold text-slate-200 hover:bg-tds-panel"
             >
-              Tirar dúvidas antes
+              Tirar dúvidas
             </button>
           </div>
+          <p className="mt-4 text-xs text-slate-500 print:hidden">
+            Pagando agora você economiza tempo: assinatura digital, PIX ou cartão até 12x, e o projeto começa nesta semana.
+          </p>
 
           <p className="mt-10 text-xs text-slate-500">
             Esta proposta é válida por {p.validade} a partir de {p.data}.
