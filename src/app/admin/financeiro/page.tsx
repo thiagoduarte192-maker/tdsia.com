@@ -1,26 +1,23 @@
 import AdminHeader from "@/components/AdminHeader";
 import { propostas } from "@/data/propostas";
 import {
-  contratos,
-  calcularResumo,
-  todasAsParcelas,
-  receitaPorMes,
+  carregarDashboard,
   progressoContrato,
   formatBRL,
   formatDate,
   diasEntre,
-  getHoje,
   labelStatusParcela,
   badgeStatusParcela,
   type Parcela,
 } from "@/data/financeiro";
+import NovoContratoButton from "./NovoContratoButton";
+import MarcarPagoButton from "./MarcarPagoButton";
 
 export const dynamic = "force-dynamic";
 
-export default function AdminFinanceiroPage() {
-  const hoje = getHoje();
-  const resumo = calcularResumo(hoje);
-  const todas = todasAsParcelas(hoje);
+export default async function AdminFinanceiroPage() {
+  const { hoje, contratos, parcelas: todas, resumo, receitaPorMes: grafico } =
+    await carregarDashboard();
 
   const proximas = todas
     .filter((p) => p.status === "pendente" || p.status === "atrasado")
@@ -31,7 +28,6 @@ export default function AdminFinanceiroPage() {
     .sort((a, b) => (b.pagamento ?? "").localeCompare(a.pagamento ?? ""))
     .slice(0, 5);
 
-  const grafico = receitaPorMes(6, 6, hoje);
   const maxValor = Math.max(
     ...grafico.map((m) => Math.max(m.recebido, m.previsto)),
     1
@@ -58,9 +54,15 @@ export default function AdminFinanceiroPage() {
               Visão geral dos recebimentos, parcelas e contratos ativos
             </p>
           </div>
-          <p className="text-xs text-slate-500">
-            Hoje: <span className="font-semibold text-slate-300">{formatDate(hoje)}</span>
-          </p>
+          <div className="flex items-center gap-3">
+            <p className="text-xs text-slate-500">
+              Hoje:{" "}
+              <span className="font-semibold text-slate-300">
+                {formatDate(hoje)}
+              </span>
+            </p>
+            <NovoContratoButton />
+          </div>
         </div>
 
         {/* KPIs principais */}
@@ -220,7 +222,7 @@ export default function AdminFinanceiroPage() {
           >
             <div className="space-y-3">
               {contratos.map((c) => {
-                const prog = progressoContrato(c, hoje);
+                const prog = progressoContrato(c, todas);
                 return (
                   <div
                     key={c.id}
@@ -326,33 +328,6 @@ export default function AdminFinanceiroPage() {
           </section>
         )}
 
-        {/* Instruções de como editar */}
-        <section className="rounded-xl border border-tds-border bg-tds-panel/40 p-6">
-          <h2 className="text-base font-semibold text-white">
-            Como registrar um pagamento recebido
-          </h2>
-          <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm text-slate-300">
-            <li>
-              Abra{" "}
-              <code className="rounded bg-tds-bg px-2 py-0.5 font-mono text-xs text-tds-green">
-                src/data/financeiro.ts
-              </code>
-            </li>
-            <li>
-              No array <code className="text-tds-green">pagamentos</code>,
-              adicione uma linha:{" "}
-              <code className="rounded bg-tds-bg px-2 py-0.5 font-mono text-[10px] text-tds-green">
-                {`{ contratoId: "bruna-001", numero: 3, dataPagamento: "2026-06-20" }`}
-              </code>
-            </li>
-            <li>
-              Commit + push e o painel atualiza automaticamente após o redeploy
-            </li>
-          </ol>
-          <p className="mt-3 text-xs text-slate-500">
-            Em breve: formulário para registrar pagamentos direto pelo painel.
-          </p>
-        </section>
       </main>
     </div>
   );
@@ -438,7 +413,19 @@ function ParcelaRow({ parcela, hoje }: { parcela: Parcela; hoje: string }) {
           {" "}• {dataInfo}
         </p>
       </div>
-      <p className="text-sm font-bold text-white">{formatBRL(parcela.valor)}</p>
+      <div className="flex items-center gap-3">
+        <p className="text-sm font-bold text-white">{formatBRL(parcela.valor)}</p>
+        {parcela.status !== "pago" && (
+          <MarcarPagoButton
+            contratoId={parcela.contratoId}
+            numero={parcela.numero}
+            total={parcela.total}
+            clienteNome={parcela.clienteNome}
+            valorSugerido={formatBRL(parcela.valor)}
+            vencimentoSugerido={formatDate(parcela.vencimento)}
+          />
+        )}
+      </div>
     </li>
   );
 }

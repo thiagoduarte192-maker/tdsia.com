@@ -1,34 +1,39 @@
+import "server-only";
+import { eq, asc } from "drizzle-orm";
+import { db, schema } from "@/lib/db";
+
 export type MetodoPagamento = "PIX" | "Boleto" | "Cartão" | "Transferência";
 export type StatusContrato = "ativo" | "concluido" | "cancelado";
 export type StatusParcela = "pago" | "pendente" | "atrasado" | "futuro";
 
 export type Contrato = {
-  id: string;
-  clienteSlug?: string; // se vem de uma proposta cadastrada
+  id: number;
+  clienteSlug?: string | null;
   clienteNome: string;
-  clienteEmpresa?: string;
+  clienteEmpresa?: string | null;
   projeto: string;
   valorTotal: number;
   metodo: MetodoPagamento;
   diaVencimento: number;
-  dataInicio: string; // ISO YYYY-MM-DD da primeira parcela
+  dataInicio: string;
   numeroParcelas: number;
   status: StatusContrato;
-  observacoes?: string;
+  observacoes?: string | null;
 };
 
 export type Pagamento = {
-  contratoId: string;
-  numero: number; // número da parcela paga
-  dataPagamento: string; // ISO YYYY-MM-DD
-  valor?: number; // se diferente do valor da parcela
-  metodo?: MetodoPagamento; // se diferente do método do contrato
-  observacao?: string;
+  id: number;
+  contratoId: number;
+  numero: number;
+  dataPagamento: string;
+  valor?: number | null;
+  metodo?: MetodoPagamento | null;
+  observacao?: string | null;
 };
 
 export type Parcela = {
   id: string;
-  contratoId: string;
+  contratoId: number;
   clienteNome: string;
   projeto: string;
   numero: number;
@@ -39,56 +44,15 @@ export type Parcela = {
   status: StatusParcela;
 };
 
-const HOJE = "2026-06-09"; // congelar pra desenvolvimento consistente
-
 /* ============================================================
- * CONTRATOS — fonte da verdade do que foi fechado com clientes
- * Para adicionar novo cliente: duplique uma entrada e ajuste os
- * valores. Para registrar pagamento: adicione em "pagamentos".
- * ========================================================== */
-
-export const contratos: Contrato[] = [
-  {
-    id: "bruna-001",
-    clienteSlug: "bruna",
-    clienteNome: "Bruna Abdenur",
-    clienteEmpresa: "Clínica Dermatológica",
-    projeto: "Automação Clínica — Feegow + 5 fluxos WhatsApp",
-    valorTotal: 6000,
-    metodo: "PIX",
-    diaVencimento: 20,
-    dataInicio: "2026-04-20",
-    numeroParcelas: 6,
-    status: "ativo",
-    observacoes: "PIX recorrente todo dia 20",
-  },
-];
-
-/* ============================================================
- * PAGAMENTOS — só os RECEBIDOS de fato
- * Cada vez que receber um PIX, adicione uma linha aqui.
- * ========================================================== */
-
-export const pagamentos: Pagamento[] = [
-  // Bruna - parcelas 1 e 2 já pagas
-  {
-    contratoId: "bruna-001",
-    numero: 1,
-    dataPagamento: "2026-04-20",
-  },
-  {
-    contratoId: "bruna-001",
-    numero: 2,
-    dataPagamento: "2026-05-20",
-  },
-];
-
-/* ============================================================
- * HELPERS
+ * Helpers de data e formatação
  * ========================================================== */
 
 export function getHoje(): string {
-  return HOJE;
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
+    d.getDate()
+  ).padStart(2, "0")}`;
 }
 
 export function formatBRL(value: number): string {
@@ -123,16 +87,90 @@ function addMeses(iso: string, n: number): string {
   ).padStart(2, "0")}`;
 }
 
-export function gerarParcelas(contrato: Contrato, hoje = HOJE): Parcela[] {
+/* ============================================================
+ * Acesso ao banco
+ * ========================================================== */
+
+export async function listarContratos(): Promise<Contrato[]> {
+  const rows = await db
+    .select()
+    .from(schema.contratos)
+    .orderBy(asc(schema.contratos.dataInicio));
+
+  return rows.map((r) => ({
+    id: r.id,
+    clienteSlug: r.clienteSlug,
+    clienteNome: r.clienteNome,
+    clienteEmpresa: r.clienteEmpresa,
+    projeto: r.projeto,
+    valorTotal: Number(r.valorTotal),
+    metodo: r.metodo as MetodoPagamento,
+    diaVencimento: r.diaVencimento,
+    dataInicio: r.dataInicio,
+    numeroParcelas: r.numeroParcelas,
+    status: r.status as StatusContrato,
+    observacoes: r.observacoes,
+  }));
+}
+
+export async function listarPagamentos(): Promise<Pagamento[]> {
+  const rows = await db
+    .select()
+    .from(schema.pagamentos)
+    .orderBy(asc(schema.pagamentos.dataPagamento));
+
+  return rows.map((r) => ({
+    id: r.id,
+    contratoId: r.contratoId,
+    numero: r.numero,
+    dataPagamento: r.dataPagamento,
+    valor: r.valor ? Number(r.valor) : null,
+    metodo: r.metodo as MetodoPagamento | null,
+    observacao: r.observacao,
+  }));
+}
+
+export async function getPagamentoExistente(
+  contratoId: number,
+  numero: number
+): Promise<Pagamento | null> {
+  const rows = await db
+    .select()
+    .from(schema.pagamentos)
+    .where(eq(schema.pagamentos.contratoId, contratoId));
+  const p = rows.find((r) => r.numero === numero);
+  return p
+    ? {
+        id: p.id,
+        contratoId: p.contratoId,
+        numero: p.numero,
+        dataPagamento: p.dataPagamento,
+        valor: p.valor ? Number(p.valor) : null,
+        metodo: p.metodo as MetodoPagamento | null,
+        observacao: p.observacao,
+      }
+    : null;
+}
+
+/* ============================================================
+ * Lógica de parcelas (calcula sob demanda)
+ * ========================================================== */
+
+export function gerarParcelas(
+  contrato: Contrato,
+  pagamentos: Pagamento[],
+  hoje: string
+): Parcela[] {
   const valorParcela = contrato.valorTotal / contrato.numeroParcelas;
   const parcelas: Parcela[] = [];
+  const pagamentosDoContrato = pagamentos.filter(
+    (p) => p.contratoId === contrato.id
+  );
 
   for (let i = 0; i < contrato.numeroParcelas; i++) {
     const numero = i + 1;
     const vencimento = addMeses(contrato.dataInicio, i);
-    const pagamento = pagamentos.find(
-      (p) => p.contratoId === contrato.id && p.numero === numero
-    );
+    const pagamento = pagamentosDoContrato.find((p) => p.numero === numero);
 
     let status: StatusParcela;
     if (pagamento) {
@@ -161,10 +199,6 @@ export function gerarParcelas(contrato: Contrato, hoje = HOJE): Parcela[] {
   return parcelas;
 }
 
-export function todasAsParcelas(hoje = HOJE): Parcela[] {
-  return contratos.flatMap((c) => gerarParcelas(c, hoje));
-}
-
 export type ResumoFinanceiro = {
   recebidoTotal: number;
   recebidoMes: number;
@@ -177,14 +211,31 @@ export type ResumoFinanceiro = {
   contratosAtivos: number;
 };
 
-export function calcularResumo(hoje = HOJE): ResumoFinanceiro {
-  const parcelas = todasAsParcelas(hoje);
+export type DashboardData = {
+  hoje: string;
+  contratos: Contrato[];
+  parcelas: Parcela[];
+  resumo: ResumoFinanceiro;
+  receitaPorMes: { mes: string; recebido: number; previsto: number }[];
+};
+
+export async function carregarDashboard(): Promise<DashboardData> {
+  const hoje = getHoje();
+  const [contratos, pagamentos] = await Promise.all([
+    listarContratos(),
+    listarPagamentos(),
+  ]);
+
+  const parcelas = contratos.flatMap((c) =>
+    gerarParcelas(c, pagamentos, hoje)
+  );
+
   const dataLimit30d = addMeses(hoje, 1);
   const dataLimit12m = addMeses(hoje, 12);
   const inicioMes = hoje.slice(0, 7) + "-01";
   const inicioAno = hoje.slice(0, 4) + "-01-01";
 
-  return {
+  const resumo: ResumoFinanceiro = {
     recebidoTotal: parcelas
       .filter((p) => p.status === "pago")
       .reduce((s, p) => s + p.valor, 0),
@@ -217,51 +268,64 @@ export function calcularResumo(hoje = HOJE): ResumoFinanceiro {
     atrasado: parcelas
       .filter((p) => p.status === "atrasado")
       .reduce((s, p) => s + p.valor, 0),
-    mrr: 0, // Bruna não tem; cálculo será adicionado quando houver contratos recorrentes
+    mrr: 0,
     totalContratos: contratos.length,
     contratosAtivos: contratos.filter((c) => c.status === "ativo").length,
   };
+
+  const receitaPorMes = montarReceitaPorMes(parcelas, hoje, 6, 6);
+
+  return { hoje, contratos, parcelas, resumo, receitaPorMes };
 }
 
-export function receitaPorMes(
-  mesesAtras = 6,
-  mesesAFrente = 6,
-  hoje = HOJE
+function montarReceitaPorMes(
+  parcelas: Parcela[],
+  hoje: string,
+  mesesAtras: number,
+  mesesAFrente: number
 ): { mes: string; recebido: number; previsto: number }[] {
-  const todas = todasAsParcelas(hoje);
-  const resultado: { mes: string; recebido: number; previsto: number }[] = [];
+  const out: { mes: string; recebido: number; previsto: number }[] = [];
   const [y, m] = hoje.split("-").map(Number);
+  const nomes = [
+    "Jan",
+    "Fev",
+    "Mar",
+    "Abr",
+    "Mai",
+    "Jun",
+    "Jul",
+    "Ago",
+    "Set",
+    "Out",
+    "Nov",
+    "Dez",
+  ];
 
   for (let i = -mesesAtras; i < mesesAFrente; i++) {
     const totalMonth = m - 1 + i;
     const ano = y + Math.floor(totalMonth / 12);
     const mes = ((totalMonth % 12) + 12) % 12 + 1;
     const key = `${ano}-${String(mes).padStart(2, "0")}`;
-    const label =
-      ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"][
-        mes - 1
-      ] +
-      "/" +
-      String(ano).slice(2);
+    const label = `${nomes[mes - 1]}/${String(ano).slice(2)}`;
 
-    const recebido = todas
+    const recebido = parcelas
       .filter((p) => p.pagamento?.startsWith(key))
       .reduce((s, p) => s + p.valor, 0);
 
-    const previsto = todas
-      .filter(
-        (p) => p.status !== "pago" && p.vencimento.startsWith(key)
-      )
+    const previsto = parcelas
+      .filter((p) => p.status !== "pago" && p.vencimento.startsWith(key))
       .reduce((s, p) => s + p.valor, 0);
 
-    resultado.push({ mes: label, recebido, previsto });
+    out.push({ mes: label, recebido, previsto });
   }
-  return resultado;
+  return out;
 }
 
-export function progressoContrato(contrato: Contrato, hoje = HOJE) {
-  const parcelas = gerarParcelas(contrato, hoje);
-  const pagas = parcelas.filter((p) => p.status === "pago");
+export function progressoContrato(contrato: Contrato, parcelas: Parcela[]) {
+  const parcelasDoContrato = parcelas.filter(
+    (p) => p.contratoId === contrato.id
+  );
+  const pagas = parcelasDoContrato.filter((p) => p.status === "pago");
   const valorPago = pagas.reduce((s, p) => s + p.valor, 0);
   return {
     parcelasPagas: pagas.length,
@@ -269,7 +333,7 @@ export function progressoContrato(contrato: Contrato, hoje = HOJE) {
     valorPago,
     valorRestante: contrato.valorTotal - valorPago,
     percentual: Math.round((valorPago / contrato.valorTotal) * 100),
-    proximaParcela: parcelas.find((p) => p.status !== "pago"),
+    proximaParcela: parcelasDoContrato.find((p) => p.status !== "pago"),
   };
 }
 
