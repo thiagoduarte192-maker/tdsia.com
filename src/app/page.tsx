@@ -258,7 +258,7 @@ export default function Home() {
 
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
-              href="https://wa.me/5511999999999?text=Ol%C3%A1!%20Gostaria%20de%20uma%20consultoria%20gratuita%20com%20a%20TDS."
+              href="https://wa.me/5521965269795?text=Ol%C3%A1!%20Gostaria%20de%20uma%20consultoria%20gratuita%20com%20a%20TDS."
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-lg bg-tds-green px-8 py-4 text-base font-bold text-tds-bg shadow-lg shadow-tds-green/30 hover:bg-tds-green-bright"

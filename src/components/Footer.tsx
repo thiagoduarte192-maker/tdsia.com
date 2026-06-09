@@ -34,7 +34,16 @@ export default function Footer() {
             </p>
             <ul className="mt-2 space-y-1 text-sm text-slate-400">
               <li>tdsautomacoesia@gmail.com</li>
-              <li>WhatsApp: (11) 99999-9999</li>
+              <li>
+                <a
+                  href="https://wa.me/5521965269795"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-tds-green"
+                >
+                  WhatsApp: (21) 96526-9795
+                </a>
+              </li>
               <li>tdsia.com</li>
             </ul>
           </div>

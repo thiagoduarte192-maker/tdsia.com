@@ -416,7 +416,7 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
             </div>
             <div className="text-right text-sm">
               <p className="text-slate-300">tdsautomacoesia@gmail.com</p>
-              <p className="text-slate-500">WhatsApp: (11) 99999-9999</p>
+              <p className="text-slate-500">WhatsApp: (21) 96526-9795</p>
               <p className="text-slate-500">tdsia.com</p>
             </div>
           </div>

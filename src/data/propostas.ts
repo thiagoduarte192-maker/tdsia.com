@@ -170,7 +170,7 @@ export const propostas: Record<string, Proposta> = {
         ],
       },
     ],
-    whatsappLink: "https://wa.me/5511999999999",
+    whatsappLink: "https://wa.me/5521965269795",
     whatsappMensagemAceitar:
       "Olá Thiago! Recebi a proposta da TDS Soluções Digitais e quero seguir com o projeto.",
     whatsappMensagemDuvida:

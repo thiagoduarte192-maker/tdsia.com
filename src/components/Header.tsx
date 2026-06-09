@@ -41,7 +41,7 @@ export default function Header() {
 
         <div className="flex items-center gap-2">
           <a
-            href="https://wa.me/5511999999999"
+            href="https://wa.me/5521965269795"
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-md bg-tds-green px-4 py-2 text-sm font-semibold text-tds-bg hover:bg-tds-green-bright"
