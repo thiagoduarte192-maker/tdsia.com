@@ -159,22 +159,12 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
                 ))}
               </ul>
             </div>
-            <Screenshot
-              src="/screenshots/notas-em-aberto.png"
-              alt="Tela de notas em aberto da Área do Cliente"
-              width={1400}
-              height={1100}
-            />
+            <MockClient />
           </div>
 
           <div className="mt-20 grid gap-8 lg:grid-cols-2 lg:items-center">
             <div className="order-2 lg:order-1">
-              <Screenshot
-                src="/screenshots/painel-loja.png"
-                alt="Painel administrativo da loja — visão geral"
-                width={1400}
-                height={1600}
-              />
+              <MockLoja />
             </div>
             <div className="order-1 lg:order-2">
               <Tag cor="blue">Sistema 2 — Bônus incluso</Tag>
@@ -614,29 +604,336 @@ function SegurancaCard({ titulo, desc }: { titulo: string; desc: string }) {
   );
 }
 
-function Screenshot({
-  src,
-  alt,
-  width,
-  height,
+function MockFrame({
+  title,
+  badge,
+  children,
 }: {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
+  title: string;
+  badge?: string;
+  children: React.ReactNode;
 }) {
   return (
     <div className="relative">
-      <div className="absolute -inset-4 rounded-3xl bg-tds-green/10 blur-2xl" />
-      <div className="relative overflow-hidden rounded-2xl border border-tds-border bg-tds-panel p-1.5 shadow-2xl ring-1 ring-tds-green/10">
-        <Image
-          src={src}
-          alt={alt}
-          width={width}
-          height={height}
-          className="h-auto w-full rounded-xl"
+      <div className="absolute -inset-6 rounded-[2rem] bg-tds-green/15 blur-3xl" />
+      <div className="absolute -inset-2 rounded-[1.5rem] bg-gradient-to-br from-tds-green/30 via-tds-green/5 to-transparent" />
+      <div className="relative rounded-2xl border border-tds-green/30 bg-tds-panel p-2 shadow-2xl ring-1 ring-tds-green/10">
+        <div className="rounded-xl border border-tds-border bg-tds-bg overflow-hidden">
+          <div className="flex items-center justify-between gap-3 border-b border-tds-border px-4 py-2.5">
+            <div className="flex items-center gap-1.5">
+              <div className="h-2.5 w-2.5 rounded-full bg-red-500/60" />
+              <div className="h-2.5 w-2.5 rounded-full bg-amber-500/60" />
+              <div className="h-2.5 w-2.5 rounded-full bg-tds-green/70" />
+            </div>
+            <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-slate-500">
+              <span>{title}</span>
+              {badge && (
+                <span className="rounded bg-tds-green/20 px-1.5 py-0.5 text-tds-green">
+                  {badge}
+                </span>
+              )}
+            </div>
+            <div className="w-12" />
+          </div>
+          {children}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MockClient() {
+  return (
+    <MockFrame title="areacliente.autopecassp.com.br">
+      {/* Header do app */}
+      <div className="border-b border-tds-border px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="flex h-6 w-6 items-center justify-center rounded bg-blue-500/90 text-[9px] font-bold text-white">
+              AP
+            </div>
+            <div>
+              <p className="text-[8px] uppercase tracking-widest text-slate-500">
+                Área do Cliente
+              </p>
+              <p className="text-[10px] font-semibold text-white">Auto Peças SP</p>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-[9px] font-medium text-slate-200">Oficina São Cristóvão</p>
+            <p className="text-[8px] text-slate-500">12.345.678/0001-90</p>
+          </div>
+        </div>
+        <div className="mt-2.5 flex gap-3 text-[9px]">
+          <span className="text-slate-500">Dashboard</span>
+          <span className="font-semibold text-tds-green border-b border-tds-green pb-0.5">
+            Notas em aberto
+          </span>
+          <span className="text-slate-500">Movimentações</span>
+          <span className="text-slate-500">Vales</span>
+        </div>
+      </div>
+
+      {/* Conteúdo */}
+      <div className="bg-tds-bg/60 px-4 py-3">
+        <p className="text-xs font-bold text-white">Notas em aberto</p>
+        <p className="text-[9px] text-slate-500">Pague suas notas via PIX ou cartão</p>
+
+        <div className="mt-3 rounded-lg border border-tds-border bg-tds-panel/80 p-2.5">
+          <div className="flex items-center justify-between">
+            <div className="flex gap-1 rounded bg-tds-bg p-0.5">
+              <span className="rounded bg-tds-green/20 px-1.5 py-0.5 text-[8px] font-semibold text-tds-green">
+                Todas
+              </span>
+              <span className="px-1.5 py-0.5 text-[8px] text-slate-500">Abertas</span>
+              <span className="px-1.5 py-0.5 text-[8px] text-slate-500">Vencidas</span>
+            </div>
+            <p className="text-[8px] text-slate-500">
+              Total: <span className="font-semibold text-white">R$ 4.227,85</span>
+            </p>
+          </div>
+
+          <div className="mt-2 divide-y divide-tds-border/60">
+            <NotaRow
+              numero="NF 18.452"
+              status="aberta"
+              desc="Kit pastilhas + discos dianteiros (Gol G6)"
+              info="Vence em 3 dias"
+              valor="R$ 1.245,90"
+            />
+            <NotaRow
+              numero="NF 18.501"
+              status="vencida"
+              desc="Amortecedor traseiro + coxim (HB20)"
+              info="Atrasada 11 dias"
+              valor="R$ 2.180,50"
+            />
+            <NotaRow
+              numero="NF 18.498"
+              status="aberta"
+              desc="Velas NGK + bobina Bosch"
+              info="Vence em 11 dias"
+              valor="R$ 489,00"
+            />
+          </div>
+        </div>
+      </div>
+    </MockFrame>
+  );
+}
+
+function NotaRow({
+  numero,
+  status,
+  desc,
+  info,
+  valor,
+}: {
+  numero: string;
+  status: "aberta" | "vencida";
+  desc: string;
+  info: string;
+  valor: string;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-2 py-2">
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-1.5">
+          <p className="text-[10px] font-semibold text-white">{numero}</p>
+          <span
+            className={`rounded px-1 py-px text-[7px] font-bold uppercase ${
+              status === "vencida"
+                ? "bg-red-500/20 text-red-300"
+                : "bg-amber-500/20 text-amber-300"
+            }`}
+          >
+            {status === "vencida" ? "Vencida" : "Em aberto"}
+          </span>
+        </div>
+        <p className="truncate text-[8px] text-slate-400">{desc}</p>
+        <p className="text-[8px] text-slate-500">{info}</p>
+      </div>
+      <div className="flex flex-col items-end gap-1">
+        <p className="text-[10px] font-bold text-white">{valor}</p>
+        <div className="flex gap-0.5">
+          <span className="rounded border border-tds-border px-1 py-px text-[7px] text-slate-300">
+            XML
+          </span>
+          <span className="rounded border border-tds-border px-1 py-px text-[7px] text-slate-300">
+            DANFE
+          </span>
+          <span className="rounded border border-tds-green/40 bg-tds-green/10 px-1 py-px text-[7px] text-tds-green">
+            WhatsApp
+          </span>
+          <span className="rounded bg-blue-500 px-1.5 py-px text-[7px] font-semibold text-white">
+            Pagar
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MockLoja() {
+  return (
+    <MockFrame title="painel da loja — visão geral" badge="ADMIN">
+      {/* Header app */}
+      <div className="border-b border-tds-border bg-tds-bg/80 px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="flex h-6 w-6 items-center justify-center rounded bg-blue-500/90 text-[9px] font-bold text-white">
+              AP
+            </div>
+            <div>
+              <p className="text-[8px] uppercase tracking-widest text-blue-400">
+                Painel Administrativo
+              </p>
+              <p className="text-[10px] font-semibold text-white">Auto Peças SP</p>
+            </div>
+          </div>
+        </div>
+        <div className="mt-2.5 flex gap-3 text-[9px]">
+          <span className="font-semibold text-tds-green border-b border-tds-green pb-0.5">
+            Visão Geral
+          </span>
+          <span className="text-slate-500">Clientes</span>
+        </div>
+      </div>
+
+      <div className="bg-tds-bg/60 px-4 py-3">
+        <p className="text-xs font-bold text-white">Visão geral da loja</p>
+
+        {/* 4 KPIs */}
+        <div className="mt-2 grid grid-cols-4 gap-1.5">
+          <KpiMini label="A receber" valor="R$ 69,5k" cor="text-tds-green" />
+          <KpiMini label="Vencido" valor="R$ 16,4k" cor="text-red-300" />
+          <KpiMini label="Faturamento" valor="R$ 89,5k" cor="text-emerald-300" />
+          <KpiMini label="Ativos" valor="13" cor="text-white" />
+        </div>
+
+        {/* Gráficos */}
+        <div className="mt-2 grid grid-cols-2 gap-1.5">
+          <div className="rounded border border-tds-border bg-tds-panel/60 p-2">
+            <p className="text-[8px] uppercase tracking-widest text-slate-500">
+              Faturamento 6m
+            </p>
+            <div className="mt-1.5 flex h-8 items-end gap-0.5">
+              {[40, 38, 55, 60, 78, 32].map((h, i) => (
+                <div
+                  key={i}
+                  className={`flex-1 rounded-sm ${
+                    i === 5 ? "bg-amber-400" : "bg-tds-green"
+                  }`}
+                  style={{ height: `${h}%` }}
+                />
+              ))}
+            </div>
+            <div className="mt-1 flex justify-between text-[6px] text-slate-500">
+              <span>Jan</span>
+              <span>Fev</span>
+              <span>Mar</span>
+              <span>Abr</span>
+              <span>Mai</span>
+              <span>Jun</span>
+            </div>
+          </div>
+
+          <div className="rounded border border-tds-border bg-tds-panel/60 p-2">
+            <p className="text-[8px] uppercase tracking-widest text-slate-500">
+              Distribuição
+            </p>
+            <p className="mt-0.5 text-center text-base font-bold text-white">17</p>
+            <div className="space-y-1">
+              <BarraDistrib cor="bg-tds-green" label="Em dia" valor={59} qtd="10" />
+              <BarraDistrib cor="bg-red-400" label="Em atraso" valor={18} qtd="3" />
+              <BarraDistrib cor="bg-blue-400" label="Novos" valor={12} qtd="2" />
+              <BarraDistrib cor="bg-slate-400" label="Inativos" valor={12} qtd="2" />
+            </div>
+          </div>
+        </div>
+
+        {/* Top clientes */}
+        <div className="mt-2 rounded border border-tds-border bg-tds-panel/60 p-2">
+          <p className="text-[8px] uppercase tracking-widest text-slate-500">
+            Top 5 compradores (12 meses)
+          </p>
+          <div className="mt-1 space-y-1">
+            <TopRow rank="1" nome="Mecânica Diesel Pesados" valor="R$ 215,8k" score="A" />
+            <TopRow rank="2" nome="Auto Service Premium" valor="R$ 178,5k" score="A" />
+            <TopRow rank="3" nome="Ferreira & Filhos" valor="R$ 145,2k" score="A" />
+            <TopRow rank="4" nome="Auto Mecânica Bandeirantes" valor="R$ 128,5k" score="A" />
+          </div>
+        </div>
+      </div>
+    </MockFrame>
+  );
+}
+
+function KpiMini({
+  label,
+  valor,
+  cor,
+}: {
+  label: string;
+  valor: string;
+  cor: string;
+}) {
+  return (
+    <div className="rounded border border-tds-border bg-tds-panel/60 p-1.5">
+      <p className="text-[7px] uppercase tracking-widest text-slate-500">{label}</p>
+      <p className={`mt-0.5 text-[11px] font-bold ${cor}`}>{valor}</p>
+    </div>
+  );
+}
+
+function BarraDistrib({
+  cor,
+  label,
+  valor,
+  qtd,
+}: {
+  cor: string;
+  label: string;
+  valor: number;
+  qtd: string;
+}) {
+  return (
+    <div>
+      <div className="flex justify-between text-[7px]">
+        <span className="text-slate-400">{label}</span>
+        <span className="text-slate-500">{qtd}</span>
+      </div>
+      <div className="h-1 overflow-hidden rounded-full bg-tds-border">
+        <div
+          className={`h-full ${cor}`}
+          style={{ width: `${valor}%` }}
         />
       </div>
+    </div>
+  );
+}
+
+function TopRow({
+  rank,
+  nome,
+  valor,
+  score,
+}: {
+  rank: string;
+  nome: string;
+  valor: string;
+  score: string;
+}) {
+  return (
+    <div className="flex items-center gap-1.5 text-[9px]">
+      <span className="flex h-4 w-4 items-center justify-center rounded-full bg-blue-500/20 text-[8px] font-bold text-blue-300">
+        {rank}
+      </span>
+      <span className="flex-1 truncate text-slate-300">{nome}</span>
+      <span className="font-semibold text-white">{valor}</span>
+      <span className="flex h-3.5 w-3.5 items-center justify-center rounded bg-tds-green text-[8px] font-bold text-tds-bg">
+        {score}
+      </span>
     </div>
   );
 }
