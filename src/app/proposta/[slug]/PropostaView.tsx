@@ -167,20 +167,14 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
                 ))}
               </ul>
             </div>
-            {p.slug === "bruna" ? (
-              <MockFeegow />
-            ) : p.slug === "gustavo-completo" ? (
-              <MockClient />
-            ) : (
-              <MockClient />
-            )}
+            {p.slug === "bruna" ? <MockFeegow /> : <MockClient />}
           </div>
 
           <div className="mt-20 grid gap-8 lg:grid-cols-2 lg:items-center">
             <div className="order-2 lg:order-1">
               {p.slug === "bruna" ? (
                 <MockWhatsapp />
-              ) : p.slug === "gustavo-completo" ? (
+              ) : p.slug === "gustavo" ? (
                 <MockFidelidade />
               ) : (
                 <MockLoja />

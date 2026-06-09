@@ -201,9 +201,9 @@ export const propostas: Record<string, Proposta> = {
       "Olá Thiago! Sou a Bruna. Recebi a proposta e tenho algumas dúvidas antes de fechar.",
   },
 
-  "gustavo-completo": {
-    slug: "gustavo-completo",
-    numero: "2026-001-V2",
+  gustavo: {
+    slug: "gustavo",
+    numero: "2026-001",
     cliente: {
       nome: "Gustavo",
       empresa: "NovaGush",
@@ -370,146 +370,6 @@ export const propostas: Record<string, Proposta> = {
       "Olá Thiago! Sou o Gustavo da NovaGush. Recebi a proposta combo Fase 1+2 e tenho algumas dúvidas antes de fechar.",
   },
 
-  gustavo: {
-    slug: "gustavo",
-    numero: "2026-001",
-    cliente: {
-      nome: "Gustavo",
-      empresa: "NovaGush",
-      cargo: "Proprietário",
-    },
-    segmento: "NovaGush — Auto Peças",
-    subtituloHero: "Plataforma de Pós-Venda e Relacionamento — NovaGush",
-    data: "09 de Junho de 2026",
-    validade: "30 dias",
-    preco: 12000,
-    parcelas: { entrada: 6000, entregaPct: 50 },
-    mensalidade: 600,
-    prazoSemanas: 4,
-    carta: [
-      "Conversamos sobre como melhorar a relação com seus clientes oficina depois da venda. A NovaGush já tem o e-commerce (novagush.com.br) rodando muito bem para captar e fechar pedidos — esta proposta é sobre o que acontece DEPOIS: cobrança, fidelidade, recompra e suporte aos clientes recorrentes.",
-      "Em vez de um sistema engessado de prateleira, você vai ter uma plataforma própria de pós-venda, integrada ao seu sistema de vendas e ao seu e-commerce, com a sua marca e as suas regras.",
-    ],
-    dores: [
-      {
-        titulo: "Telefone toca o dia inteiro",
-        desc: "Oficinas ligam para perguntar 'quanto eu devo?', 'vence quando?', 'tem vale?'. Sua equipe gasta horas respondendo o que poderia ser autosserviço.",
-        impacto: "~2 horas/dia perdidas",
-      },
-      {
-        titulo: "Recebimento depende de horário comercial",
-        desc: "Boleto, depósito, contato com banco. O dinheiro entra dias depois — quando deveria entrar imediatamente.",
-        impacto: "Caixa lento em 5 a 10 dias",
-      },
-      {
-        titulo: "Cobrança manual e desconfortável",
-        desc: "Ligar para o cliente cobrar é constrangedor. Muitas notas vencem sem que ninguém perceba.",
-        impacto: "Inadimplência mais alta",
-      },
-      {
-        titulo: "Sem visão consolidada do negócio",
-        desc: "Quem são seus melhores clientes? Quem está em atraso? Quem sumiu? Hoje a resposta está espalhada em planilhas e na cabeça das pessoas.",
-        impacto: "Decisões no escuro",
-      },
-    ],
-    escopo: {
-      sistema1: {
-        titulo: "Área do Cliente",
-        subtitulo: "Para as oficinas que compram com você",
-        itens: [
-          "Login privado por CNPJ — cada oficina vê só os próprios dados",
-          "Dashboard com tudo o que importa — total em aberto, vencido, saldo de vales, limite de crédito",
-          "Pagar nota online — PIX (com QR Code) ou cartão de crédito",
-          "Comprovante automático — protocolo, dados da nota, envio por WhatsApp",
-          "Baixar XML e DANFE direto da nota — sem precisar ligar pro financeiro",
-          "Movimentações com filtro e busca — histórico de compras, pagamentos e devoluções",
-          "Consulta de vales — não esquece mais o vale na gaveta",
-          "Preferências de notificação — WhatsApp e e-mail",
-        ],
-      },
-      sistema2: {
-        titulo: "Painel Administrativo da Loja",
-        subtitulo: "Só você e sua equipe têm acesso",
-        itens: [
-          "Visão geral em tempo real — total a receber, vencido, faturamento do mês",
-          "Faturamento dos últimos 6 meses em gráfico visual",
-          "Top 5 melhores clientes e top 5 inadimplentes em destaque",
-          "Lista completa de clientes — busca, filtros por status, ordenação por compras, vencido, ticket médio",
-          "Score de cada cliente (A, B, C, D) baseado em comportamento de pagamento",
-          "Detalhe de cada cliente com histórico de relacionamento — todas as cobranças, ligações, promessas registradas",
-          "Cobrança via WhatsApp em 1 clique — mensagem pronta, link de pagamento embutido",
-          "Insights automáticos — clientes premium, inativos, em risco",
-        ],
-      },
-    },
-    inclui: [
-      { titulo: "Design e UX personalizados", desc: "Sua marca, suas cores, identidade visual própria" },
-      { titulo: "Integração com seu sistema", desc: "Conexão com seu ERP de vendas — notas, clientes, vales" },
-      { titulo: "Integração com o e-commerce", desc: "Conexão com novagush.com.br — histórico de compras unificado" },
-      { titulo: "Login e autenticação", desc: "Cada oficina com acesso individual seguro" },
-      { titulo: "Gateway de pagamento", desc: "PIX + cartão de crédito (Mercado Pago / Asaas)" },
-      { titulo: "Hospedagem profissional", desc: "Servidor próprio gerenciado pela TDS, SSL automático, subdomínio da NovaGush (ex: clientes.novagush.com.br)" },
-      { titulo: "Painel administrativo completo", desc: "Para você gerir tudo sem depender de mim" },
-      { titulo: "Treinamento da equipe", desc: "Sessão online para você e sua equipe usarem" },
-      { titulo: "Manual em vídeo", desc: "Para consulta futura, onboarding de novos colaboradores" },
-      { titulo: "Suporte pós-entrega", desc: "30 dias de suporte incluído. Depois, plano mensal" },
-    ],
-    cronograma: [
-      {
-        prazo: "Semana 1",
-        titulo: "Levantamento e integração",
-        desc: "Reunião de alinhamento, acesso ao seu sistema de vendas, mapeamento de dados, validação da identidade visual.",
-      },
-      {
-        prazo: "Semanas 2 e 3",
-        titulo: "Desenvolvimento",
-        desc: "Construção da Área do Cliente, integração com pagamentos (PIX/cartão), desenvolvimento do Painel da Loja.",
-      },
-      {
-        prazo: "Semana 4",
-        titulo: "Homologação e treinamento",
-        desc: "Testes com você, ajustes finais, treinamento da equipe, manual em vídeo, publicação no ar.",
-      },
-    ],
-    roadmap: [
-      {
-        fase: "Fase 2",
-        titulo: "Programa de fidelidade próprio",
-        itens: [
-          "Substituir sistema atual de pontos",
-          "Pontuação automática (sem QR de cupom)",
-          "Campanhas por fornecedor e produto",
-          "Catálogo de prêmios personalizado",
-          "Notificações via WhatsApp",
-        ],
-      },
-      {
-        fase: "Fase 3",
-        titulo: "Gestão para a oficina cliente",
-        itens: [
-          "Ficha de veículo dos clientes da oficina",
-          "Ordem de serviço simples",
-          "Lembrete de manutenção (oficina → cliente final)",
-          "CRM básico para o mecânico",
-        ],
-      },
-      {
-        fase: "Fase 4",
-        titulo: "Engajamento e indicação",
-        itens: [
-          "Programa indique e ganhe (oficina → oficina)",
-          "Stories de promoções da NovaGush",
-          "Disparo de comunicados via WhatsApp",
-          "Avaliação pós-entrega",
-        ],
-      },
-    ],
-    whatsappLink: "https://wa.me/5521965269795",
-    whatsappMensagemAceitar:
-      "Olá Thiago! Sou o Gustavo da NovaGush. Recebi a proposta da TDS Soluções Digitais e quero seguir com o projeto.",
-    whatsappMensagemDuvida:
-      "Olá Thiago! Sou o Gustavo da NovaGush. Recebi a proposta e tenho algumas dúvidas antes de fechar.",
-  },
 };
 
 export function formatBRL(value: number): string {
