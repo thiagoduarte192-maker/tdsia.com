@@ -163,12 +163,12 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
                 ))}
               </ul>
             </div>
-            <MockClient />
+            {p.slug === "bruna" ? <MockFeegow /> : <MockClient />}
           </div>
 
           <div className="mt-20 grid gap-8 lg:grid-cols-2 lg:items-center">
             <div className="order-2 lg:order-1">
-              <MockLoja />
+              {p.slug === "bruna" ? <MockWhatsapp /> : <MockLoja />}
             </div>
             <div className="order-1 lg:order-2">
               <Tag cor="blue">Sistema 2 — Bônus incluso</Tag>
@@ -306,8 +306,16 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
             Valor justo, sem surpresas
           </h2>
 
-          <div className="mt-10 grid gap-6 lg:grid-cols-3">
-            <div className="lg:col-span-2 rounded-2xl border-2 border-tds-green bg-tds-panel p-8 shadow-2xl shadow-tds-green/10">
+          <div
+            className={`mt-10 grid gap-6 ${
+              p.mensalidade ? "lg:grid-cols-3" : "lg:grid-cols-1"
+            }`}
+          >
+            <div
+              className={`${
+                p.mensalidade ? "lg:col-span-2" : ""
+              } rounded-2xl border-2 border-tds-green bg-tds-panel p-8 shadow-2xl shadow-tds-green/10`}
+            >
               <p className="text-xs font-semibold uppercase tracking-widest text-tds-green">
                 Setup do projeto (pagamento único)
               </p>
@@ -319,36 +327,42 @@ export default function PropostaView({ proposta: p }: { proposta: Proposta }) {
               </p>
 
               <ul className="mt-6 space-y-2 text-sm">
-                <Check>Área do Cliente completa</Check>
-                <Check>Painel Administrativo da Loja</Check>
-                <Check>Integração com seu sistema de vendas</Check>
-                <Check>Integração com gateway de pagamento</Check>
-                <Check>Hospedagem (primeiros 90 dias inclusos)</Check>
-                <Check>Treinamento da equipe</Check>
-                <Check>30 dias de suporte pós-entrega</Check>
+                {(p.setupItens ?? [
+                  "Área do Cliente completa",
+                  "Painel Administrativo da Loja",
+                  "Integração com seu sistema de vendas",
+                  "Integração com gateway de pagamento",
+                  "Hospedagem (primeiros 90 dias inclusos)",
+                  "Treinamento da equipe",
+                  "30 dias de suporte pós-entrega",
+                ]).map((it) => (
+                  <Check key={it}>{it}</Check>
+                ))}
               </ul>
             </div>
 
-            <div className="rounded-2xl border border-tds-border bg-tds-panel p-8">
-              <p className="text-xs font-semibold uppercase tracking-widest text-tds-green">
-                Manutenção mensal
-              </p>
-              <p className="mt-2 text-4xl font-bold text-white">
-                {formatBRL(p.mensalidade)}
-                <span className="text-base font-normal text-slate-500">/mês</span>
-              </p>
-              <p className="mt-1 text-sm text-slate-400">
-                A partir do 4º mês após go-live
-              </p>
-              <ul className="mt-6 space-y-2 text-sm">
-                <Check>Hospedagem no servidor da TDS + SSL renovado</Check>
-                <Check>Backup diário com 30 dias de retenção</Check>
-                <Check>Suporte por WhatsApp em horário comercial</Check>
-                <Check>Correções de bugs sem custo extra</Check>
-                <Check>Até 4h/mês de pequenos ajustes ou melhorias</Check>
-                <Check>Monitoramento 24/7 e alertas de falha</Check>
-              </ul>
-            </div>
+            {p.mensalidade && (
+              <div className="rounded-2xl border border-tds-border bg-tds-panel p-8">
+                <p className="text-xs font-semibold uppercase tracking-widest text-tds-green">
+                  Manutenção mensal
+                </p>
+                <p className="mt-2 text-4xl font-bold text-white">
+                  {formatBRL(p.mensalidade)}
+                  <span className="text-base font-normal text-slate-500">/mês</span>
+                </p>
+                <p className="mt-1 text-sm text-slate-400">
+                  A partir do 4º mês após go-live
+                </p>
+                <ul className="mt-6 space-y-2 text-sm">
+                  <Check>Hospedagem no servidor da TDS + SSL renovado</Check>
+                  <Check>Backup diário com 30 dias de retenção</Check>
+                  <Check>Suporte por WhatsApp em horário comercial</Check>
+                  <Check>Correções de bugs sem custo extra</Check>
+                  <Check>Até 4h/mês de pequenos ajustes ou melhorias</Check>
+                  <Check>Monitoramento 24/7 e alertas de falha</Check>
+                </ul>
+              </div>
+            )}
           </div>
 
           <div className="mt-8 rounded-xl border border-amber-500/30 bg-amber-500/5 p-5">
@@ -638,6 +652,210 @@ function MockFrame({
           {children}
         </div>
       </div>
+    </div>
+  );
+}
+
+function MockFeegow() {
+  return (
+    <MockFrame title="n8n.tdsia.com — sync-feegow" badge="LIVE">
+      <div className="bg-tds-bg/60 px-4 py-3">
+        <div className="flex items-center justify-between">
+          <p className="text-xs font-bold text-white">Base de Dados Feegow</p>
+          <span className="rounded bg-tds-green/20 px-1.5 py-0.5 text-[9px] font-semibold text-tds-green">
+            Última sincronização: há 2 horas
+          </span>
+        </div>
+
+        <div className="mt-3 grid grid-cols-3 gap-2">
+          <KpiMini label="Pacientes" valor="2.847" cor="text-tds-green" />
+          <KpiMini label="Agendamentos" valor="184" cor="text-blue-300" />
+          <KpiMini label="Procedimentos" valor="62" cor="text-emerald-300" />
+        </div>
+
+        <div className="mt-3 rounded-lg border border-tds-border bg-tds-panel/80 p-2.5">
+          <p className="text-[9px] uppercase tracking-widest text-slate-500">
+            Pipeline de integração
+          </p>
+          <div className="mt-2 flex items-center justify-between gap-1.5">
+            <PipelineNode label="Feegow" sub="API" cor="bg-blue-500" />
+            <ArrowFlow />
+            <PipelineNode label="n8n" sub="ETL" cor="bg-tds-green" />
+            <ArrowFlow />
+            <PipelineNode label="Banco" sub="PostgreSQL" cor="bg-purple-500" />
+            <ArrowFlow />
+            <PipelineNode label="Sheets" sub="Gestão" cor="bg-emerald-500" />
+          </div>
+        </div>
+
+        <div className="mt-3 rounded-lg border border-tds-border bg-tds-panel/80 p-2.5">
+          <p className="text-[9px] uppercase tracking-widest text-slate-500">
+            Últimas execuções
+          </p>
+          <div className="mt-1.5 space-y-1">
+            <ExecRow time="09:00" status="ok" desc="Sincronização diária (2.847 pacientes)" />
+            <ExecRow time="07:30" status="ok" desc="Pacientes novos: 4 adicionados" />
+            <ExecRow time="ontem 23:50" status="ok" desc="Backup do banco realizado" />
+            <ExecRow time="ontem 09:00" status="ok" desc="Sincronização diária OK" />
+          </div>
+        </div>
+      </div>
+    </MockFrame>
+  );
+}
+
+function MockWhatsapp() {
+  return (
+    <MockFrame title="WhatsApp Business — fluxos ativos" badge="Z-API">
+      <div className="bg-emerald-950/30 px-4 py-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 text-[10px] font-bold text-white">
+              C
+            </div>
+            <div>
+              <p className="text-[10px] font-semibold text-white">Camila Souza</p>
+              <p className="text-[8px] text-emerald-300">online</p>
+            </div>
+          </div>
+          <p className="text-[9px] text-slate-400">Aniversariantes • 06:00</p>
+        </div>
+
+        <div className="mt-3 space-y-2">
+          <BalaoMsg
+            tipo="enviada"
+            texto="🎂 Bom dia, Camila! Hoje é o seu dia! Toda a equipe da Clínica Dermatológica deseja muita saúde, paz e que esse novo ciclo seja iluminado. Como mimo de aniversário, você ganhou 15% OFF em qualquer procedimento estético neste mês. Te esperamos! 💚"
+            hora="06:00"
+            tag="Aniversariantes"
+          />
+          <BalaoMsg
+            tipo="recebida"
+            texto="Bom dia, Bruna! Que gentileza, muito obrigada 💕 vou agendar essa semana!"
+            hora="08:42"
+          />
+        </div>
+
+        <div className="mt-3 border-t border-emerald-900/40 pt-3">
+          <p className="text-[9px] uppercase tracking-widest text-emerald-400">
+            5 fluxos rodando agora
+          </p>
+          <div className="mt-1.5 grid grid-cols-2 gap-1.5">
+            <FluxoChip emoji="🎂" nome="Aniversariantes" cor="bg-amber-500/20 text-amber-300" />
+            <FluxoChip emoji="🩹" nome="Pós-procedimento" cor="bg-blue-500/20 text-blue-300" />
+            <FluxoChip emoji="📅" nome="Lembrete consulta" cor="bg-emerald-500/20 text-emerald-300" />
+            <FluxoChip emoji="🎯" nome="Campanhas" cor="bg-purple-500/20 text-purple-300" />
+            <FluxoChip emoji="↩️" nome="Recaptação" cor="bg-pink-500/20 text-pink-300" className="col-span-2" />
+          </div>
+        </div>
+      </div>
+    </MockFrame>
+  );
+}
+
+function PipelineNode({
+  label,
+  sub,
+  cor,
+}: {
+  label: string;
+  sub: string;
+  cor: string;
+}) {
+  return (
+    <div className="flex flex-col items-center gap-1">
+      <div
+        className={`flex h-7 w-7 items-center justify-center rounded ${cor} text-[8px] font-bold text-white`}
+      >
+        {label.slice(0, 2).toUpperCase()}
+      </div>
+      <p className="text-[8px] font-medium text-white">{label}</p>
+      <p className="text-[7px] text-slate-500">{sub}</p>
+    </div>
+  );
+}
+
+function ArrowFlow() {
+  return <span className="text-tds-green text-xs">→</span>;
+}
+
+function ExecRow({
+  time,
+  status,
+  desc,
+}: {
+  time: string;
+  status: "ok" | "fail";
+  desc: string;
+}) {
+  return (
+    <div className="flex items-center gap-2 text-[8px]">
+      <span
+        className={`h-1.5 w-1.5 rounded-full ${
+          status === "ok" ? "bg-tds-green" : "bg-red-400"
+        }`}
+      />
+      <span className="text-slate-500">{time}</span>
+      <span className="flex-1 text-slate-300">{desc}</span>
+    </div>
+  );
+}
+
+function BalaoMsg({
+  tipo,
+  texto,
+  hora,
+  tag,
+}: {
+  tipo: "enviada" | "recebida";
+  texto: string;
+  hora: string;
+  tag?: string;
+}) {
+  const isEnviada = tipo === "enviada";
+  return (
+    <div className={`flex ${isEnviada ? "justify-end" : "justify-start"}`}>
+      <div
+        className={`max-w-[85%] rounded-lg px-2.5 py-1.5 text-[9px] leading-snug ${
+          isEnviada
+            ? "rounded-tr-none bg-emerald-700 text-white"
+            : "rounded-tl-none bg-tds-panel text-slate-200"
+        }`}
+      >
+        {tag && (
+          <span className="mb-0.5 block text-[7px] uppercase tracking-widest text-emerald-200">
+            🤖 {tag}
+          </span>
+        )}
+        <p>{texto}</p>
+        <p
+          className={`mt-0.5 text-right text-[7px] ${
+            isEnviada ? "text-emerald-200" : "text-slate-500"
+          }`}
+        >
+          {hora} {isEnviada && "✓✓"}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function FluxoChip({
+  emoji,
+  nome,
+  cor,
+  className = "",
+}: {
+  emoji: string;
+  nome: string;
+  cor: string;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`flex items-center gap-1 rounded px-2 py-1 text-[9px] font-medium ${cor} ${className}`}
+    >
+      <span>{emoji}</span>
+      <span>{nome}</span>
     </div>
   );
 }

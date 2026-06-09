@@ -10,7 +10,7 @@ export default function AdminPropostasPage() {
     b.data.localeCompare(a.data)
   );
   const totalValor = lista.reduce((s, p) => s + p.preco, 0);
-  const totalMrr = lista.reduce((s, p) => s + p.mensalidade, 0);
+  const totalMrr = lista.reduce((s, p) => s + (p.mensalidade ?? 0), 0);
 
   return (
     <div className="min-h-screen">
@@ -97,7 +97,7 @@ export default function AdminPropostasPage() {
                     {formatBRL(p.preco)}
                   </td>
                   <td className="px-5 py-3 text-right text-slate-300 whitespace-nowrap">
-                    {formatBRL(p.mensalidade)}/mês
+                    {p.mensalidade ? `${formatBRL(p.mensalidade)}/mês` : "—"}
                   </td>
                   <td className="px-5 py-3 text-right">
                     <div className="flex justify-end gap-2">
