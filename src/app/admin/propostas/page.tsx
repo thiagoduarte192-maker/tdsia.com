@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 import { propostas, formatBRL } from "@/data/propostas";
 import CopyLinkButton from "./CopyLinkButton";
+import AdminHeader from "@/components/AdminHeader";
 
 export const dynamic = "force-dynamic";
 
@@ -14,31 +14,7 @@ export default function AdminPropostasPage() {
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-30 border-b border-tds-border bg-tds-panel/40 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-3">
-            <Image
-              src="/tds-logo.png"
-              alt="TDS Soluções Digitais"
-              width={1098}
-              height={375}
-              priority
-              className="h-10 w-auto"
-            />
-            <span className="hidden sm:inline-block rounded-full border border-tds-green/30 bg-tds-green/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-tds-green">
-              Admin
-            </span>
-          </div>
-          <form action="/admin/logout" method="POST">
-            <button
-              type="submit"
-              className="rounded-md border border-tds-border bg-tds-bg px-3 py-1.5 text-xs font-medium text-slate-200 hover:border-tds-green hover:text-tds-green"
-            >
-              Sair
-            </button>
-          </form>
-        </div>
-      </header>
+      <AdminHeader />
 
       <main className="mx-auto max-w-6xl px-6 py-10">
         <div className="mb-8">
