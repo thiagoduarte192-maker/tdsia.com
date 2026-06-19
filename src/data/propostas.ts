@@ -324,7 +324,6 @@ export const propostas: Record<string, Proposta> = {
       { titulo: "Multi-loja consolidado", desc: "Painel único pras 3 lojas + filtro por unidade + visão geral" },
       { titulo: "Hospedagem profissional", desc: "Servidor TDS, SSL, subdomínio NovaGush" },
       { titulo: "Painel admin completo", desc: "Cobrança + clientes + fidelidade num só lugar" },
-      { titulo: "Migração do meuappdefidelidade", desc: "Trazemos os pontos já acumulados dos seus clientes" },
       { titulo: "30 dias de suporte pós-entrega", desc: "Ajustes finos durante o uso" },
     ],
     cronograma: [
@@ -346,7 +345,7 @@ export const propostas: Record<string, Proposta> = {
       {
         prazo: "Semanas 6 a 8",
         titulo: "Fase 2 — Fidelidade Própria",
-        desc: "Núcleo de pontos consolidado, painel admin de fidelidade, catálogo de prêmios, app do cliente PWA, migração do meuappdefidelidade.",
+        desc: "Núcleo de pontos consolidado, painel admin de fidelidade, catálogo de prêmios, app do cliente PWA.",
       },
       {
         prazo: "Semanas 9 e 10",
