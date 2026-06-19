@@ -214,7 +214,7 @@ export const propostas: Record<string, Proposta> = {
       "Plataforma Completa NovaGush — Pós-Venda + Fidelidade Própria para 3 lojas",
     data: "09 de Junho de 2026",
     validade: "15 dias",
-    preco: 28000,
+    preco: 30000,
     mensalidade: 1000,
     prazoSemanas: 10,
     setupItens: [
@@ -230,7 +230,7 @@ export const propostas: Record<string, Proposta> = {
       "Hospedagem profissional + SSL + domínio próprio",
       "Treinamento da equipe + manual em vídeo",
       "30 dias de suporte pós-entrega",
-      "⚡ Economia de R$ 10.000 vs contratar as fases separadas",
+      "⚡ Economia de R$ 8.000 vs contratar as fases separadas",
     ],
     carta: [
       "Gustavo, com base nas nossas conversas: faz total sentido o seu raciocínio. A Fase 1 te entrega controle e organização do financeiro, mas é a Fase 2 (fidelidade) que vai realmente trazer ROI — recompra, cashback, retenção dos clientes oficina.",
