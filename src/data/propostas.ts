@@ -351,7 +351,7 @@ export const propostas: Record<string, Proposta> = {
       {
         prazo: "Semanas 9 e 10",
         titulo: "Homologação + Lançamento",
-        desc: "Testes finais com dados reais das 3 lojas, treinamento da equipe, manual em vídeo, comunicação para os clientes, plataforma 100% no ar.",
+        desc: "Testes finais com dados reais das 3 lojas, comunicação para os clientes, plataforma 100% no ar.",
       },
     ],
     roadmap: [
