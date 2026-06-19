@@ -215,7 +215,7 @@ export const propostas: Record<string, Proposta> = {
     data: "09 de Junho de 2026",
     validade: "15 dias",
     preco: 28000,
-    mensalidade: 1300,
+    mensalidade: 1000,
     prazoSemanas: 10,
     setupItens: [
       "Tudo da Fase 1 (Área do Cliente + Painel da Loja)",
