@@ -226,7 +226,7 @@ export const propostas: Record<string, Proposta> = {
       "+ Notificações via WhatsApp",
       "+ Suporte às 3 lojas em painel único + fidelidade consolidada",
       "Integração com EMSOFT via backup automático do Google Drive (sem instalar nada nas lojas)",
-      "Integração com o e-commerce (novagush.com.br)",
+      "Vendas do e-commerce + marketplaces também pontuam na fidelidade",
       "Hospedagem profissional + SSL + domínio próprio",
       "30 dias de suporte pós-entrega",
       "⚡ Economia de R$ 8.000 vs contratar as fases separadas",
@@ -317,7 +317,7 @@ export const propostas: Record<string, Proposta> = {
     inclui: [
       { titulo: "Design e UX personalizados", desc: "Sua marca, suas cores" },
       { titulo: "Integração com EMSOFT (3 lojas)", desc: "Sincronização noturna automática via backup do Google Drive — sem instalar nada nas lojas" },
-      { titulo: "Integração com o e-commerce", desc: "novagush.com.br ↔ área do cliente" },
+      { titulo: "Vendas online + marketplaces na fidelidade", desc: "Toda venda do novagush.com.br e dos marketplaces (ML, Magalu, Amazon, etc) cai no EMSOFT e vira pontos automaticamente — o cliente acumula independente de onde comprou" },
       { titulo: "Login e autenticação", desc: "Cada oficina/consumidor com acesso próprio" },
       { titulo: "Gateway de pagamento", desc: "PIX + cartão (Mercado Pago)" },
       { titulo: "WhatsApp Business API", desc: "Disparo de notificações + cobranças" },
